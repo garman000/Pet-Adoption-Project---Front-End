@@ -19,12 +19,13 @@ const NavBar = () => {
                 <Nav.Link to="/homepage" as={NavLink}>
                   Home |
                 </Nav.Link>
-                <Nav.Link to="/mypets" as={NavLink}>
-                  My Pets |
+                <Nav.Link to="/allpets" as={NavLink}>
+                  Our Pets |
                 </Nav.Link>
-                <Nav.Link to="/search" as={NavLink}>
-                  Find Your Pet
+                <Nav.Link to="/:userId/mypets" as={NavLink}>
+                  My Pets
                 </Nav.Link>
+                
               </>
               
             </Nav>
@@ -40,10 +41,10 @@ const NavBar = () => {
                 <NavDropdown.Item to="/userprofile" as={NavLink}>
                   Update Profile
                 </NavDropdown.Item>
-                <NavDropdown.Item to="/mypets" as={NavLink}>
+                <NavDropdown.Item to="/:userId/mypets" as={NavLink}>
                   My Pets Page
                 </NavDropdown.Item>
-                <NavDropdown.Item to="/search" as={NavLink}>
+                <NavDropdown.Item to="/allpets" as={NavLink}>
                   Find Your Pet
                 </NavDropdown.Item>
                 <NavDropdown.Divider />

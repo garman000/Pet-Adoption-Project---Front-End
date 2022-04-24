@@ -23,10 +23,9 @@ const Users = () => {
 
   return (
     <Container>
-        <h1 className="d-flex justify-content-center">Users</h1>
+      <h1 className="d-flex justify-content-center">Users</h1>
       <div className="userCard">
-        <UserList items={USERS} />
-        <Homepage items={USERS} />
+           <UserList items={USERS} />
       </div>
     </Container>
   );

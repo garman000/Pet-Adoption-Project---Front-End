@@ -33,3 +33,9 @@
   -webkit-box-shadow: 3px 7px 27px 8px rgba(148, 144, 144, 0.55);
   -moz-box-shadow: 3px 7px 27px 8px rgba(148, 144, 144, 0.55);
 }
+
+.map-container {
+  height: 20rem;
+  width: 100%;
+  background-color: white;
+}
