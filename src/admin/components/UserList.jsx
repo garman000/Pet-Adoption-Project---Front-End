@@ -1,18 +1,19 @@
 import React from "react";
 import "./UserList.css";
-import { Container, Card } from "react-bootstrap";
+// import { Container, Card } from "react-bootstrap";
 import bootstrap from "bootstrap";
 import UserItem from "./UserItem";
+import Card from "../../shared/components/UIElements/Card";
 import Users from "../pages/Users";
-import Modal from "../../shared/components/UIElements/Modal";
+// import Modal from "../../shared/components/UIElements/Modal";
 
 function UserList(props) {
   if (props.items.length === 0) {
     return (
       <div className="center">
-        <div>
+        <Card>
           <h2>No users found.</h2>
-        </div>
+        </Card>
       </div>
     );
   }
@@ -24,8 +25,8 @@ function UserList(props) {
           <UserItem
             key={user.id}
             id={user.id}
-            age={user.age}
             image={user.image}
+            age={user.age}
             from={user.from}
             firstname={user.firstname}
             secondname={user.secondname}

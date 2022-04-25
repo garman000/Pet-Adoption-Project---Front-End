@@ -4,7 +4,7 @@ import "./UserItem.css";
 import Avatar from "../../shared/components/UIElements/Avatar";
 import Card from "../../shared/components/UIElements/Card";
 
-function UserItem(props) {
+const UserItem = (props) => {
   return (
     <li className="user-item">
       <div className="user-item__content">
@@ -15,7 +15,7 @@ function UserItem(props) {
           <Avatar image={props.image} alt={props.name} />
         </div>
         <div className="user-item__info">
-          <h2>{props.firstname}{props.secondname}</h2>
+          <h2>{props.firstname} {props.secondname}</h2>
           <h3>Age: {props.age}</h3>
           <h3>
             {props.petCount} {props.petCount === 1 ? "Pet" : "Pets"}

@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { Container, Nav, Button } from "react-bootstrap";
-import "./WelcomePage.css";
+// import { Container, Nav, Button } from "react-bootstrap";
+import "../components/WelcomePage.css";
 import { NavLink } from "react-router-dom";
-
-import bootstrap from "bootstrap";
+import Button from "../../shared/components/FormElements/Button";
+// import bootstrap from "bootstrap";
 import Modal from "../../shared/components/UIElements/Modal";
 
 const WelcomePage = (props) => {
@@ -15,18 +15,18 @@ const WelcomePage = (props) => {
 
   return (
     <React.Fragment>
-      <Container>
+      {/* <Container> */}
         <Modal
           show={showModal}
           onCancel={closeModalHandler}
-          header={props.bio}
+          header="So you want a pet, youve come to the right place!"
           contentClass="place-item__modal-content"
           footerClass="place-item__modal-actions"
-          footer={<Button onClick={closeModalHandler}>CLOSE</Button>}
+          footer={<Button onClick={closeModalHandler}>SIGN UP</Button>}
         >
           <div className="map-container">
 
-            <h1>The MODAL</h1>
+            <form>The MODAL</form>
           </div>
           </Modal>
          {/* <Modal
@@ -61,7 +61,7 @@ const WelcomePage = (props) => {
               <Button
                 className="btn btn-outline-dark btn-sm"
                 //   modalShow={showSignUp}
-                //   onClick={handleShowSignUp}
+                  onClick={openModalHandler}
                 variant="outline-dark"
               >
                 Sign-Up
@@ -93,7 +93,7 @@ const WelcomePage = (props) => {
             </p>
           </div>
         </div>
-      </Container>
+      {/* </Container> */}
     </React.Fragment>
   );
 }

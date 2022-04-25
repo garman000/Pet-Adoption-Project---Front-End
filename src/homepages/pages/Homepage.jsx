@@ -1,8 +1,8 @@
 import React from 'react';
 import { Container, Button } from 'react-bootstrap';
-import "./Homepage.css";
+import "../components/Homepage.css";
 // import UserProfile from './UserProfile';
-// import { NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 function Homepage(props) {
     return (
@@ -13,10 +13,10 @@ function Homepage(props) {
                 </div>
             </div>
 
-            {/* <Button as={NavLink} to="/userprofile" >User Profile </Button> */}
+            {/* <Button as={NavLink} to="/userprofile" >User Profile </Button>  */}
       
 
-        </Container>
+        // </Container>
     );
 }
 
