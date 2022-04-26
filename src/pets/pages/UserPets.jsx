@@ -41,8 +41,8 @@ const UserPets = () => {
   const loadedPets = PETS.filter(pet => pet.savedby === userId)
   return (
     // <Container>
-    //     <h1 className='d-flex justify-content-center'>My Pets</h1>
     <div>
+      <h1 className='d-flex justify-content-center'>My Pets</h1>
       <PetList items={loadedPets} />
     </div>
     // </Container>

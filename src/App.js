@@ -10,7 +10,7 @@ import MainNavigation from "./shared/components/Navigation/MainNavigation";
 import UserPets from "./pets/pages/UserPets";
 import WelcomePage from "./homepages/pages/WelcomePage";
 import Homepage from "./homepages/pages/Homepage";
-import UpdatePets from "./pets/pages/UpdatePets";
+// import UpdatePets from "./pets/pages/UpdatePets";
 // import NavBar from "./shared/components/Navigation/NavBar";
 // import { Container } from "react-bootstrap";
 // import WelcomePage from "./homepages/pages/WelcomePage";
@@ -41,7 +41,7 @@ function App() {
         <Route path="/users" element={<Users />}/>
         <Route path="/:userId/mypets" element={<UserPets />}/>
         <Route path="/pets/new" element={<NewPets />}/>
-        <Route path="/pets/pet" element={<UpdatePets />}/>
+        {/* <Route path="/pets/:petId" element={<UpdatePets />}/> */}
         
        
    
