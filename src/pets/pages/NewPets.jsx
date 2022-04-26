@@ -6,74 +6,44 @@ import {
   VALIDATOR_REQUIRE,
 } from "../../shared/util/validators";
 import Button from "../../shared/components/FormElements/Button";
+import { useForm } from "../../shared/hooks/form-hook";
 import "./NewPets.css";
 
-const formReducer = (state, action) => {
-  switch (action.type) {
-    case "INPUT_CHANGE":
-      let formIsValid = true;
-      for (const inputId in state.inputs) {
-        if (inputId === action.inputId) {
-          formIsValid = formIsValid && action.isValid;
-        } else {
-          formIsValid = formIsValid && state.inputs[inputId].isValid;
-        }
-      }
-      return {
-        ...state,
-        inputs: {
-          ...state.inputs,
-          [action.inputId]: { value: action.value, isValid: action.isValid },
-        },
-        isValid: formIsValid,
-      };
-    default:
-      return state;
-  }
-};
+
 const NewPets = () => {
-  const [formState, dispatch] = useReducer(formReducer, {
-    inputs: {
-      Name: {
-        value: "",
-        isValid: false,
-      },
-      Breed: {
-        value: "",
-        isValid: false,
-      },
-      Age: {
-        value: "",
-        isValid: false,
-      },
-      Weight: {
-        value: "",
-        isValid: false,
-      },
-      Height: {
-        value: "",
-        isValid: false,
-      },
-      Colour: {
-        value: "",
-        isValid: false,
-      },
-      DietaryRestrictions: {
-        value: "",
-        isValid: false,
-      },
-    
+  const [formState, inputHandler] = useForm({
+    Name: {
+      value: "",
+      isValid: false
     },
-    isValid: false,
-  });
-  const inputHandler = useCallback((id, value, isValid) => {
-    dispatch({
-      type: "INPUT_CHANGE",
-      value: value,
-      isValid: isValid,
-      inputId: id,
-    });
-  }, []);
+    Breed: {
+      value: "",
+      isValid: false,
+    },
+    Age: {
+      value: "",
+      isValid: false,
+    },
+    Weight: {
+      value: "",
+      isValid: false,
+    },
+    Height: {
+      value: "",
+      isValid: false,
+    },
+    Colour: {
+      value: "",
+      isValid: false,
+    },
+    DietaryRestrictions: {
+      value: "",
+      isValid: false,
+    },
+  
+  }, false)
+  
+ 
 
   const petSubmitHandler = (event) => {
     event.preventDefault();

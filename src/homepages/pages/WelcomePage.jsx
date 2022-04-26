@@ -19,14 +19,14 @@ const WelcomePage = (props) => {
         <Modal
           show={showModal}
           onCancel={closeModalHandler}
-          header="So you want a pet, youve come to the right place!"
+          header="LOG IN!"
           contentClass="place-item__modal-content"
           footerClass="place-item__modal-actions"
-          footer={<Button onClick={closeModalHandler}>SIGN UP</Button>}
+          footer={<Button onClick={closeModalHandler}>LOGIN</Button>}
         >
           <div className="map-container">
 
-            <form>The MODAL</form>
+          
           </div>
           </Modal>
          {/* <Modal

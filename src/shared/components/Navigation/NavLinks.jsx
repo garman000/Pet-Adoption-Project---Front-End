@@ -10,6 +10,9 @@ const NavLinks = (props) => {
         <NavLink to="/" exact>Welcome Page</NavLink>
       </li>
       <li>
+        <NavLink to="/allanimals" exact>Search Animals</NavLink>
+      </li>
+      <li>
         <NavLink to="/users" exact>All Users</NavLink>
       </li>
       <li>

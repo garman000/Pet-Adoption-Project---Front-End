@@ -2,6 +2,7 @@ import React from "react";
 // import { Container } from "react-bootstrap";
 import Card from "../../shared/components/UIElements/Card";
 import PetItem from "./PetItem";
+import Button from "../../shared/components/FormElements/Button";
 // import bootstrap from "bootstrap";
 
 import "./PetList.css";
@@ -14,7 +15,7 @@ const PetList = props => {
           <h2>No Pets Found</h2>
           <p>Maybe its time to adopt?</p>
         
-          <button>Adopt</button>
+          <Button to={"/allanimals"}>Adopt</Button>
         
         </Card>
       </div>
