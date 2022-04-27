@@ -48,7 +48,7 @@ const PetItem = (props) => {
             </Button>
             <Button danger onClick={confirmDeleteHandler}>
               {" "}
-              DELETE
+              REMOVE
             </Button>
           </React.Fragment>
         }
