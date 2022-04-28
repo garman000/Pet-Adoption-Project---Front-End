@@ -1,6 +1,6 @@
 import "./App.css";
-import react from "react";
-import { Route, Routes } from "react-router-dom";
+import react, { useCallback, useState } from "react";
+import { Route, Routes, useNavigate, Navigate } from "react-router-dom";
 // import Pets from "./pets/pages/Pets";
 // import AllAnimals from "./pets/pages/AllAnimals";
 // import UserList from "./admin/components/UserList";
@@ -11,6 +11,9 @@ import UserPets from "./pets/pages/UserPets";
 import WelcomePage from "./homepages/pages/WelcomePage";
 import Homepage from "./homepages/pages/Homepage";
 import AllAnimals from "./admin/pages/AllAnimals";
+import Auth from "./admin/pages/Auth";
+import { AuthContext } from "./shared/context/auth-context";
+import React from "react";
 // import UpdatePets from "./pets/pages/UpdatePets";
 // import NavBar from "./shared/components/Navigation/NavBar";
 // import { Container } from "react-bootstrap";
@@ -20,36 +23,64 @@ import AllAnimals from "./admin/pages/AllAnimals";
 // import AddingPets from "./admin/pages/AddingPets";
 
 function App() {
-  return (
-    // <Container>
-    // <NavBar />
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const navigate = useNavigate();
 
-    // {/* <Route path="/" element={<WelcomePage />} /> */}
-    // {/* <Route path="/homepage" element={<Homepage />} /> */}
-    // {/* <Route path="/addpets" element={<AddingPets />} /> */}
-    //   {/* <Route path="/allpets" element={<AllAnimals />} /> */}
-    //   {/* <Route path="/userprofile" element={<Users />} /> */}
-    // </Container>
-<div>
-  <MainNavigation/>
-  <main>
-    <Routes>
-    <Route path="/" element={<WelcomePage />}/>
-    <Route path="/home" element={<Homepage />}/>
-    
+  const login = useCallback(() => {
+    setIsLoggedIn(true);
+  }, []);
 
-    <Route path="/allanimals" element={<AllAnimals />}/>
+  const logout = useCallback(() => {
+    setIsLoggedIn(false);
+  }, []);
 
-        <Route path="/users" element={<Users />}/>
-        <Route path="/:userId/mypets" element={<UserPets />}/>
-        <Route path="/pets/new" element={<NewPets />}/>
-        {/* <Route path="/pets/:petId" element={<UpdatePets />}/> */}
+  let routes;
+
+  if (isLoggedIn) {
+    routes = (
+      <React.Fragment>
+        <Route path="/" element={<WelcomePage />} />
+        <Route path="/homepage" element={<Homepage />} />
         
+        <Route path="/allanimals" element={<AllAnimals />} />
+        <Route path="/:userId/mypets" element={<UserPets />} />
+        <Route path="/pets/new" element={<NewPets />} />
        
-   
-    </Routes>
-    </main>
-    </div>
+      </React.Fragment>
+    );
+  } else {
+    routes = (
+      <React.Fragment>
+        <Route path="/" element={<WelcomePage />} />
+        <Route path="/allanimals" element={<AllAnimals />} />
+        <Route path="/authenticate" element={<Auth />} />
+      </React.Fragment>
+    );
+  }
+
+  return (
+    <AuthContext.Provider
+      value={{ isLoggedIn: isLoggedIn, login: login, logout: logout }}
+    >
+      <div>
+        <MainNavigation />
+        <main>
+          <Routes>
+            <Route path="/" element={<WelcomePage />} />
+            <Route path="/home" element={<Homepage />} />
+
+            <Route path="/allanimals" element={<AllAnimals />} />
+
+            <Route path="/users" element={<Users />} />
+            <Route path="/:userId/mypets" element={<UserPets />} />
+            <Route path="/pets/new" element={<NewPets />} />
+            <Route path="/authenticate" element={<Auth />} />
+
+            {/* <Route path="/pets/:petId" element={<UpdatePets />}/> */}
+          </Routes>
+        </main>
+      </div>
+    </AuthContext.Provider>
   );
 }
 

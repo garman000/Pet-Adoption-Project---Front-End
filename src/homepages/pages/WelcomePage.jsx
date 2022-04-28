@@ -13,16 +13,18 @@ import {
 // import bootstrap from "bootstrap"
 import { useForm } from "../../shared/hooks/form-hook";
 import Modal from "../../shared/components/UIElements/Modal";
+import Auth from "../../admin/pages/Auth";
 
 const WelcomePage = (props) => {
   const [showModal, setShowModal] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
-  const [showSignupModal, setShowSignupModal] = useState(false)
+  const [showSignupModal, setShowSignupModal] = useState(false);
+  const [isLoginMode, setIsLoginMode] = useState(true);
 
   const closeModalHandler = () => setShowModal(false);
   const openModalHandler = () => setShowModal(true);
 
-  const [formState, inputHandler] = useForm({
+  const [formState, inputHandler, setFormData] = useForm({
     Email: {
       value: "",
       isValid: false,
@@ -31,50 +33,50 @@ const WelcomePage = (props) => {
       value: "",
       isValid: false,
     },
-  });
+  },
+  false
+  );
+  
 
-  const signUpHandler = (event) => {
-    event.preventDefault();
-    console.log(formState.inputs); //send to backend
+  const switchModeHandler = () => {
+    if (!isLoginMode) {
+      setFormData(
+        {
+          ...formState.inputs,
+          firstName: undefined
+        },
+        formState.inputs.email.isValid && formState.inputs.password.isValid
+      );
+    } else {
+      setFormData(
+        {
+          ...formState.inputs,
+          firstName: {
+            value: '',
+            isValid: false
+          }
+        },
+        false
+      );
+    }
+    setIsLoginMode(prevMode => !prevMode);
   };
 
   return (
     <React.Fragment>
       {/* <Container> */}
-     <Modal
+      <Modal
         show={showModal}
         onCancel={closeModalHandler}
         header="LOG IN!"
         contentClass="place-item__modal-content"
         footerClass="place-item__modal-actions"
-        footer={<Button onClick={closeModalHandler} disabled={!formState.isValid}>LOGIN</Button>}
+       
       >
+        <Auth closeModalHandler={closeModalHandler} />
         
-        <div className="map-container">
-          <form className="place-form" onSubmit={signUpHandler}>
-            <Input
-              id="Email"
-              element="input"
-              type="text"
-              label="Email"
-              validators={[VALIDATOR_REQUIRE(), VALIDATOR_EMAIL()]}
-              errorText="Please enter a valid email"
-              onInput={inputHandler}
-            />
-            <Input
-              id="Password"
-              element="input"
-              type="text"
-              label="Password"
-              validators={[VALIDATOR_REQUIRE(), VALIDATOR_MINLENGTH(6)]}
-              errorText="Please enter a valid breed"
-              onInput={inputHandler}
-            />
-          </form>
-        </div>
       </Modal>
 
-  
       <div className="animalImage">
         <div className="titleControl">
           <h1 className="display-4">DO YOU LOVE ANIMALS?</h1>

@@ -1,8 +1,10 @@
 import React from 'react';
-import { Container, Button } from 'react-bootstrap';
+import { Container } from 'react-bootstrap';
 import "../components/Homepage.css";
 // import UserProfile from './UserProfile';
 import { NavLink } from 'react-router-dom';
+import Button from "../../shared/components/FormElements/Button"
+
 
 function Homepage(props) {
     return (
@@ -13,10 +15,12 @@ function Homepage(props) {
                 </div>
             </div>
 
-            {/* <Button as={NavLink} to="/userprofile" >User Profile </Button>  */}
+            <Button >Search</Button> 
+            <Button >MyPets</Button> 
+            <Button >Settings</Button> 
       
 
-        // </Container>
+    </Container>
     );
 }
 

@@ -1,12 +1,14 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 
 // import Avatar from "../../shared/components/UIElements/Avatar";
 import Button from "../../shared/components/FormElements/Button";
 import Modal from "../../shared/components/UIElements/Modal";
 import Card from "../../shared/components/UIElements/Card";
 import "./PetItem.css";
+import AuthContext from "../../shared/context/auth-context";
 
 const PetItem = (props) => {
+  const auth = useContext(AuthContext)
   const [showModal, setShowModal] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   // const [showConfirmModal, setShowConfirmModal] = useState(false)
@@ -71,11 +73,11 @@ const PetItem = (props) => {
           </div>
 
           <div className="place-item__actions">
-            <Button inverse>BIO</Button>
-            {/* <Button to={`/pets/${props.id}`}>EDIT PET</Button> */}
-            <Button danger onClick={showDeleteWarningHandler}>
+           <Button inverse>BIO</Button>
+           {auth.isLoggedIn && <Button to={`/pets/${props.id}`}>EDIT PET</Button>}
+            {auth.isLoggedIn && <Button danger onClick={showDeleteWarningHandler}> 
               REMOVE PET
-            </Button>
+            </Button>}
           </div>
         </Card>
       </li>
