@@ -1,7 +1,6 @@
 import React from 'react';
 import { Container } from 'react-bootstrap';
 import "../components/Homepage.css";
-// import UserProfile from './UserProfile';
 import { NavLink } from 'react-router-dom';
 import Button from "../../shared/components/FormElements/Button"
 

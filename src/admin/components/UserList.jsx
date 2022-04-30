@@ -25,9 +25,7 @@ function UserList(props) {
           <UserItem
             key={user.id}
             id={user.id}
-            image={user.image}
-            // age={user.age}
-            // from={user.from}
+            picture={user.picture}
             firstname={user.firstname}
             lastname={user.lastname}
             petCount={user.pets.length}
