@@ -74,7 +74,7 @@ const Auth = (props) => {
     event.preventDefault();
     if (isLoginMode) {
         try {
-      await sendRequest(
+      const responseData = await sendRequest(
         "http://localhost:8080/auth/login",
         "POST",
         JSON.stringify({
@@ -84,12 +84,12 @@ const Auth = (props) => {
         { "Content-Type": "application/json" }
       );
 
-      auth.login();
+      auth.login(responseData.user.id);
       navigate("/home");
     } catch (err) {}
   } else {
       try {
-        await sendRequest("http://localhost:8080/auth/signup", "POST", JSON.stringify({
+        const responseData = await sendRequest("http://localhost:8080/auth/signup", "POST", JSON.stringify({
             email: formState.inputs.email.value,
             password: formState.inputs.password.value,
             firstname: formState.inputs.firstname.value,
@@ -100,7 +100,7 @@ const Auth = (props) => {
             "Content-Type": "application/json",
           },
         );
-        auth.login();
+        auth.login(responseData.user.id);
         navigate("/home");
       } catch (err) {}
    };

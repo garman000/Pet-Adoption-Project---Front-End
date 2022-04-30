@@ -1,4 +1,4 @@
-import React, { useCallback, useReducer } from "react";
+import React, { useCallback, useReducer, useContext } from "react";
 
 import Input from "../../shared/components/FormElements/Input";
 import {
@@ -8,65 +8,124 @@ import {
 import Button from "../../shared/components/FormElements/Button";
 import { useForm } from "../../shared/hooks/form-hook";
 import "./NewPets.css";
+import { useHttpClient } from "../../shared/hooks/http-hook";
+import AuthContext from "../../shared/context/auth-context";
+import ErrorModal from "../../shared/components/UIElements/ErrorModal";
+import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
+import { useNavigate } from "react-router-dom";
 
 
 const NewPets = () => {
+  const auth = useContext(AuthContext)
+  const navigate = useNavigate()
+  const { isLoading, error, sendRequest, clearError } = useHttpClient(); 
   const [formState, inputHandler] = useForm({
-    Name: {
+    name: {
       value: "",
       isValid: false
     },
-    Breed: {
+    type: {
       value: "",
       isValid: false,
     },
-    Age: {
+    breed: {
       value: "",
       isValid: false,
     },
-    Weight: {
+    weight: {
       value: "",
       isValid: false,
     },
-    Height: {
+    height: {
       value: "",
       isValid: false,
     },
-    Colour: {
+    color: {
       value: "",
       isValid: false,
     },
-    DietaryRestrictions: {
+    dietaryrequirements: {
       value: "",
       isValid: false,
     },
+    hypoallergenic: {
+      value: "",
+      isValid: false,
+    },
+    bio: {
+      value: "",
+      isValid: false,
+    },
+    picture: {
+      value: "",
+      isValid: false,
+    },
+    status: {
+      value: "",
+      isValid: false,
+    },
+  
   
   }, false)
   
  
 
-  const petSubmitHandler = (event) => {
+  const petSubmitHandler = async (event) => {
     event.preventDefault();
-    console.log(formState.inputs); //send to backend
+ 
+    try {
+      await sendRequest('http://localhost:8080/pet', 'POST', JSON.stringify({
+         type: formState.inputs.type.value,
+         name: formState.inputs.name.value,
+         breed: formState.inputs.breed.value,
+         weight: formState.inputs.weight.value,
+         height: formState.inputs.height.value,
+         color: formState.inputs.color.value,
+         dietaryrequirements: formState.inputs.dietaryrequirements.value,
+         hypoallergenic: formState.inputs.hypoallergenic.value,
+         bio: formState.inputs.bio.value,
+         picture: formState.inputs.picture.value,
+         status: formState.inputs.status.value,
+         savedby: auth.userId
+   
+       }), 
+       { 'Content-Type': 'application/json' }
+    );
+    navigate('/home')
+      
+    } catch (err) {}
+
+
   };
   return (
     <>
       <div>
         <h1>NEW PETS</h1>
       </div>
-
+<React.Fragment>
+<ErrorModal error={error} onClear={clearError} />
       <form className="place-form" onSubmit={petSubmitHandler}>
+        {isLoading && <LoadingSpinner asOverlay />}
         <Input
-          id="Name"
+          id="type"
           element="input"
           type="text"
-          label="Name"
+          label="Type"
           validators={[VALIDATOR_REQUIRE()]}
           errorText="Please enter a valid title"
           onInput={inputHandler}
         />
         <Input
-          id="Breed"
+          id="name"
+          element="input"
+          type="text"
+          label="Name"
+          validators={[VALIDATOR_REQUIRE()]}
+          errorText="Please enter aniamls name."
+          onInput={inputHandler}
+        />
+        <Input
+          id="breed"
           element="input"
           type="text"
           label="Breed"
@@ -75,16 +134,7 @@ const NewPets = () => {
           onInput={inputHandler}
         />
         <Input
-          id="Age"
-          element="input"
-          type="text"
-          label="Age"
-          validators={[VALIDATOR_REQUIRE()]}
-          errorText="Please enter a valid age"
-          onInput={inputHandler}
-        />
-        <Input
-          id="Weight"
+          id="weight"
           element="input"
           type="text"
           label="Weight"
@@ -93,7 +143,7 @@ const NewPets = () => {
           onInput={inputHandler}
         />
         <Input
-          id="Height"
+          id="height"
           element="input"
           type="text"
           label="Height"
@@ -102,27 +152,64 @@ const NewPets = () => {
           onInput={inputHandler}
         />{" "}
         <Input
-          id="Colour"
+          id="color"
           element="input"
           type="text"
-          label="Colour"
+          label="Color"
           validators={[VALIDATOR_REQUIRE()]}
-          errorText="Please enter a valid colour"
+          errorText="Please enter a valid color"
           onInput={inputHandler}
         />{" "}
         <Input
-          id="DietaryRestrictions"
+          id="dietaryrequirements"
           element="input"
           type="text"
-          label="Dietary Restrictions"
+          label="Dietary Requirements"
           validators={[VALIDATOR_REQUIRE()]}
           errorText="Please enter any dietary restrictions animal may have"
           onInput={inputHandler}
         />
+        <Input
+          id="hypoallergenic"
+          element="input"
+          type="text"
+          label="Allergies"
+          validators={[VALIDATOR_REQUIRE()]}
+          errorText="Hypoallergenic?"
+          onInput={inputHandler}
+        />
+        <Input
+          id="bio"
+          element="input"
+          type="text"
+          label="Bio"
+          validators={[VALIDATOR_REQUIRE()]}
+          errorText="Add bio"
+          onInput={inputHandler}
+        />
+        <Input
+          id="picture"
+          element=""
+          type=""
+          label="Status"
+          validators={[VALIDATOR_REQUIRE()]}
+          errorText="Animal Status"
+          onInput={inputHandler}
+        />
+        <Input
+          id="status"
+          element="input"
+          type="text"
+          label="Status"
+          validators={[VALIDATOR_REQUIRE()]}
+          errorText="Animal Status"
+          onInput={inputHandler}
+        />
         <Button type="submit" disabled={!formState.isValid}>
-          Add pets
+          Add Pets
         </Button>
       </form>
+      </React.Fragment>
     </>
   );
 };
