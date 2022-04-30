@@ -14,6 +14,7 @@ import {
 import { useForm } from "../../shared/hooks/form-hook";
 import Modal from "../../shared/components/UIElements/Modal";
 import Auth from "../../admin/pages/Auth";
+import Card from "../../shared/components/UIElements/Card";
 
 const WelcomePage = (props) => {
   const [showModal, setShowModal] = useState(false);
@@ -24,26 +25,26 @@ const WelcomePage = (props) => {
   const closeModalHandler = () => setShowModal(false);
   const openModalHandler = () => setShowModal(true);
 
-  const [formState, inputHandler, setFormData] = useForm({
-    Email: {
-      value: "",
-      isValid: false,
+  const [formState, inputHandler, setFormData] = useForm(
+    {
+      Email: {
+        value: "",
+        isValid: false,
+      },
+      Password: {
+        value: "",
+        isValid: false,
+      },
     },
-    Password: {
-      value: "",
-      isValid: false,
-    },
-  },
-  false
+    false
   );
-  
 
   const switchModeHandler = () => {
     if (!isLoginMode) {
       setFormData(
         {
           ...formState.inputs,
-          firstName: undefined
+          firstName: undefined,
         },
         formState.inputs.email.isValid && formState.inputs.password.isValid
       );
@@ -52,31 +53,29 @@ const WelcomePage = (props) => {
         {
           ...formState.inputs,
           firstName: {
-            value: '',
-            isValid: false
-          }
+            value: "",
+            isValid: false,
+          },
         },
         false
       );
     }
-    setIsLoginMode(prevMode => !prevMode);
+    setIsLoginMode((prevMode) => !prevMode);
   };
 
   return (
     <React.Fragment>
-      {/* <Container> */}
+    {/* <Card className="authentication__modal-container" > */}
       <Modal
+      className="authentication__modal"
         show={showModal}
         onCancel={closeModalHandler}
-        header="LOG IN!"
         contentClass="place-item__modal-content"
         footerClass="place-item__modal-actions"
-       
       >
         <Auth closeModalHandler={closeModalHandler} />
-        
       </Modal>
-
+      {/* </Card> */}
       <div className="animalImage">
         <div className="titleControl">
           <h1 className="display-4">DO YOU LOVE ANIMALS?</h1>
@@ -120,7 +119,7 @@ const WelcomePage = (props) => {
           </p>
         </div>
       </div>
-      {/* </Container> */}
+     
     </React.Fragment>
   );
 };

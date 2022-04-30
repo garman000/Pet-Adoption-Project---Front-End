@@ -26,11 +26,11 @@ function UserList(props) {
             key={user.id}
             id={user.id}
             image={user.image}
-            age={user.age}
-            from={user.from}
+            // age={user.age}
+            // from={user.from}
             firstname={user.firstname}
-            secondname={user.secondname}
-            petCount={user.pets}
+            lastname={user.lastname}
+            petCount={user.pets.length}
           />
         ))}
       </ul>

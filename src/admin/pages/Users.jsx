@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import ErrorModal from "../../shared/components/UIElements/ErrorModal";
+import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 // import { Container } from "react-bootstrap";
 // import bootstrap from "bootstrap";
 
@@ -8,38 +10,50 @@ import UserList from "../components/UserList";
 // import Homepage from "./Homepage";
 
 const Users = () => {
-  const USERS = [
-    {
-      id: "u1",
-      firstname: "Steven",
-      secondname: "Garman",
-      age: "32",
-      from: "manchester",
-      pets: 7,
-      image:
-        "https://images.pexels.com/photos/839011/pexels-photo-839011.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
-    },
-    {
-      id: "u1",
-      firstname: "Steven",
-      secondname: "Garman",
-      age: "28",
-      from: "manchester",
-      pets: 1,
-      image:
-        "https://images.pexels.com/photos/839011/pexels-photo-839011.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
-    },
-  ];
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState();
+  const [loadedUsers, setLoadedUsers] = useState()
 
+  useEffect(() => {
+    const sendRequest = async () => {
+    setIsLoading(true)
+    try {
+
+    const response = await fetch("http://localhost:8080/users");
+    
+    const responseData = await response.json();
+    console.log(responseData)
+
+    if(!response.ok) {
+      throw new Error(responseData.message)
+    }
+
+    setLoadedUsers(responseData.users);
+    // console.log(responseData.users)
+    
+    } catch (err) {
+      
+      setError(err.message)
+    }
+    setIsLoading(false)
+  }
+    sendRequest()
+  }, [])
+
+  const errorHandler = () => {
+    setError(null)
+  }
+  
   return (
-    // <Container>
-    <div>
-      <h1>Users</h1>
-      <UserList items={USERS} /> 
-    </div>
-    // <div className="userCard">
-    // {/* </div> */}
-    // </Container>
+   <React.Fragment>    
+     <ErrorModal error={error} onClear={errorHandler} />
+     {isLoading && (
+       <div className="center">
+         <LoadingSpinner />
+       </div>
+     )}
+      {!isLoading && loadedUsers && <UserList items={loadedUsers} /> }
+      </React.Fragment>
   );
 };
 

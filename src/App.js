@@ -1,9 +1,6 @@
 import "./App.css";
 import react, { useCallback, useState } from "react";
 import { Route, Routes, useNavigate, Navigate } from "react-router-dom";
-// import Pets from "./pets/pages/Pets";
-// import AllAnimals from "./pets/pages/AllAnimals";
-// import UserList from "./admin/components/UserList";
 import Users from "./admin/pages/Users";
 import NewPets from "./pets/pages/NewPets";
 import MainNavigation from "./shared/components/Navigation/MainNavigation";
@@ -14,13 +11,6 @@ import AllAnimals from "./admin/pages/AllAnimals";
 import Auth from "./admin/pages/Auth";
 import { AuthContext } from "./shared/context/auth-context";
 import React from "react";
-// import UpdatePets from "./pets/pages/UpdatePets";
-// import NavBar from "./shared/components/Navigation/NavBar";
-// import { Container } from "react-bootstrap";
-// import WelcomePage from "./homepages/pages/WelcomePage";
-// import Homepage from "./homepages/pages/Homepage";
-// import AllAnimals from "./pets/pages/AllAnimals";
-// import AddingPets from "./admin/pages/AddingPets";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
