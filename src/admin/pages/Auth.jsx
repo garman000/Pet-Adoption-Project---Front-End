@@ -11,6 +11,7 @@ import {
 } from "../../shared/util/validators";
 import { useForm } from "../../shared/hooks/form-hook";
 import AuthContext from "../../shared/context/auth-context";
+import { useHttpClient } from "../../shared/hooks/http-hook";
 import "./Auth.css";
 import { useNavigate } from "react-router-dom";
 import ErrorModal from "../../shared/components/UIElements/ErrorModal";
@@ -21,9 +22,7 @@ const Auth = (props) => {
   const [isLoginMode, setIsLoginMode] = useState(true);
   const { closeModalHandler } = props;
   const navigate = useNavigate();
-
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState();
+  const { isLoading, error, sendRequest, clearError } = useHttpClient();
 
   const [formState, inputHandler, setFormData] = useForm(
     {
@@ -73,81 +72,45 @@ const Auth = (props) => {
 
   const authSubmitHandler = async (event) => {
     event.preventDefault();
-    // auth.login();
-    // navigate("/home");
-    // closeModalHandler();
-    setIsLoading(true)
-
     if (isLoginMode) {
+        try {
+      await sendRequest(
+        "http://localhost:8080/auth/login",
+        "POST",
+        JSON.stringify({
+          email: formState.inputs.email.value,
+          password: formState.inputs.password.value,
+        }),
+        { "Content-Type": "application/json" }
+      );
+
+      auth.login();
+      navigate("/home");
+    } catch (err) {}
+  } else {
       try {
-          
-        const response = await fetch("http://localhost:8080/auth/login", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-                      email: formState.inputs.email.value,
-                      password: formState.inputs.password.value,
-          }),
-        });
-
-        const responseData = await response.json();
-        if (!response.ok) {
-          throw new Error(responseData.message);
-        }
-        setIsLoading(false)
-
-        auth.login();
-        navigate("/home")
-      } catch (err) {
-        setIsLoading(false)
-        setError(err.message || "Something went wrong, please try again.");
-
-      }
-    } else {
-      try {
-        const response = await fetch("http://localhost:8080/auth/signup", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            // name: formState.inputs.name.value,
+        await sendRequest("http://localhost:8080/auth/signup", "POST", JSON.stringify({
             email: formState.inputs.email.value,
             password: formState.inputs.password.value,
             firstname: formState.inputs.firstname.value,
             lastname: formState.inputs.lastname.value,
             phonenumber: formState.inputs.phonenumber.value,
-
           }),
-        });
-
-        const responseData = await response.json();
-        if (!response.ok) {
-          throw new Error(responseData.message);
-         
-        }
-        setIsLoading(false)
+          {
+            "Content-Type": "application/json",
+          },
+        );
         auth.login();
-        navigate("/home")
-    
-      } catch (err) {
-          setIsLoading(false)
-        setError(err.message || "Something went wrong, please try again.");
-      }
-      
-    }
-  };
-
-  const errorHandler = () => {
-      setError(null)
+        navigate("/home");
+      } catch (err) {}
+   };
   }
+ 
   return (
     <React.Fragment>
-        <ErrorModal error={error} onClear={errorHandler}/>
+      <ErrorModal error={error} onClear={clearError} />
       <Card className="authentication">
-          {isLoading && <LoadingSpinner asOverlay />}
+        {isLoading && <LoadingSpinner asOverlay />}
         <h2>Login Required</h2>
         <hr />
         <form onSubmit={authSubmitHandler}>
