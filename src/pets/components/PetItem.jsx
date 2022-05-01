@@ -1,6 +1,5 @@
 import React, { useContext, useState } from "react";
 
-// import Avatar from "../../shared/components/UIElements/Avatar";
 import Button from "../../shared/components/FormElements/Button";
 import Modal from "../../shared/components/UIElements/Modal";
 import Card from "../../shared/components/UIElements/Card";
@@ -11,8 +10,7 @@ const PetItem = (props) => {
   const auth = useContext(AuthContext)
   const [showModal, setShowModal] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
-  // const [showConfirmModal, setShowConfirmModal] = useState(false)
-
+  
   const openModalHandler = () => setShowModal(true);
   const closeModalHandler = () => setShowModal(false);
   const showDeleteWarningHandler = () => setShowConfirmModal(true);
@@ -24,20 +22,7 @@ const PetItem = (props) => {
   };
   return (
     <React.Fragment>
-      {/* <Modal
-        show={showModal}
-        onCancel={closeModalHandler}
-        header="authentication"
-        contentClass="place-item__modal-content"
-        footerClass="place-item__modal-actions"
-        footer={<Button onClick={closeModalHandler}>CLOSE</Button>}
-      >
-        <div className="map-container">
-          <h1>The MODAL</h1>
-          
-        </div>
-      </Modal> */}
-      <Modal
+       <Modal
         show={showConfirmModal}
         onCancel={cancelDeleteHandler}
         header="Are you sure?"

@@ -9,6 +9,7 @@ const UserItem = (props) => {
     <li className="user-item">
       <div className="user-item__content">
         <Link to={`/${props.id}/mypets`}>
+        {/* <Card> */}
           <div className="user-item__image">
             <Avatar image={props.image} alt={props.name} />
           </div>
@@ -21,6 +22,7 @@ const UserItem = (props) => {
               {props.petCount} {props.petCount === 1 ? "Pet" : "Pets"}
             </h3>
           </div>
+          {/* </Card> */}
         </Link>
       </div>
     </li>

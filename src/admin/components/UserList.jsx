@@ -21,14 +21,14 @@ function UserList(props) {
     <>
       
       <ul className="users-list">
-        {props.items.map((user) => (
+        {props.items.map((users) => (
           <UserItem
-            key={user.id}
-            id={user.id}
-            picture={user.picture}
-            firstname={user.firstname}
-            lastname={user.lastname}
-            petCount={user.pets.length}
+            key={users.id}
+            id={users.id}
+            picture={users.image}
+            firstname={users.firstname}
+            lastname={users.lastname}
+            petCount={users.pets.length}
           />
         ))}
       </ul>

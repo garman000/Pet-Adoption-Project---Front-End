@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import Input from "../../shared/components/FormElements/Input";
@@ -10,6 +10,7 @@ import {
 import { useForm } from "../../shared/hooks/form-hook";
 
 import "../../pets/pages/NewPets.css";
+import Card from "../../shared/components/UIElements/Card";
 
 const DUMMY_USER = [
   {
@@ -32,27 +33,61 @@ const DUMMY_USER = [
 
 const UpdateUser = () => {
   const userId = useParams().userId;
+  const [isLoading, setIsLoading] = useState(true)
+
+  const [formState, inputHandler, setFormData] = useForm(
+    {
+      firstname: {
+        value: "",
+        isValid: false,
+      },
+      lastname: {
+        value: "",
+        isValid: false,
+      },
+      email: {
+        value: "",
+        isValid: false,
+      },
+      password: {
+        value: "",
+        isValid: false,
+      },
+    },
+    false
+  );
 
   const identifiedUser = DUMMY_USER.find((p) => p.id === userId);
 
-  const [formState, inputHandler] = useForm({
-    firstname: {
-      value: identifiedUser.firstname,
-      isValid: true,
-    },
-    lastname: {
-      value: identifiedUser.lastname,
-      isValid: true,
-    },
-    email: {
-      value: identifiedUser.email,
-      isValid: true,
-    },
-    password: {
-      value: identifiedUser.password,
-      isValid: true,
-    },
-  });
+    useEffect(() => {
+      if (identifiedUser) {
+        setFormData(
+          {
+            firstname: {
+              value: identifiedUser.firstname,
+              isValid: true,
+            },
+            lastname: {
+              value: identifiedUser.lastname,
+              isValid: true,
+            },
+            email: {
+              value: identifiedUser.email,
+              isValid: true,
+            },
+            password: {
+              value: identifiedUser.password,
+              isValid: true,
+            },
+          },
+          true
+        )
+      }
+    
+        setIsLoading(false);
+
+    }, [setFormData, identifiedUser])
+
 
   const userUpdateSubmitHandler = (event) => {
     event.preventDefault();
@@ -61,10 +96,18 @@ const UpdateUser = () => {
 
   if (!identifiedUser) {
     return (
-      <div className="center">
+      <Card className="center">
         <h2>Could not find User!</h2>
-      </div>
+      </Card>
     );
+  }
+
+  if (isLoading) {
+      return (
+          <div className="center">
+              <h2>Loading...</h2>
+          </div>
+      )
   }
 
   return (

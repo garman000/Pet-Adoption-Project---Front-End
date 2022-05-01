@@ -91,7 +91,7 @@ const NewPets = () => {
        }), 
        { 'Content-Type': 'application/json' }
     );
-    navigate('/home')
+    navigate('/allanimals')
       
     } catch (err) {}
 

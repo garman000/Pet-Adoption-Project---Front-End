@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom";
 import { useHttpClient } from "../../shared/hooks/http-hook.jsx";
 import ErrorModal from "../../shared/components/UIElements/ErrorModal.jsx";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner.jsx";
-import "./NewPets.css"
+import "./NewPets.css";
 
 const UserPets = () => {
   const [loadedPets, setLoadedPets] = useState();
@@ -19,28 +19,33 @@ const UserPets = () => {
       try {
         const responseData = await sendRequest(
           `http://localhost:8080/pet/user/${userId}`
-          );
-          console.log(responseData)
-          setLoadedPets(responseData.pets);
+        );
+        console.log("userpets", responseData);
+        setLoadedPets(responseData.pets);
+      } catch (err) {}
+    };
 
-        } catch (err) {}
-      };
-      
-      // console.log(loadedPets)
     fetchPets();
   }, [sendRequest, userId]);
   return (
     // <Container>
     <React.Fragment>
-    <div>
-      <h1 className="d-flex justify-content-center">My Pets</h1>
-      <ErrorModal error={error} onClear={clearError} />
-      {isLoading && <div className="center"><LoadingSpinner/></div>}
-      {!isLoading && loadedPets && <div className="testerr"><PetList items={loadedPets} /></div>}
-    </div>
+      <div>
+        <h1 className="d-flex justify-content-center">My Pets</h1>
+        <ErrorModal error={error} onClear={clearError} />
+        {isLoading && (
+          <div className="center">
+            <LoadingSpinner />
+          </div>
+        )}
+        {!isLoading && loadedPets && (
+          <div className="testerr">
+            <PetList items={loadedPets} />
+          </div>
+        )}
+      </div>
     </React.Fragment>
     // </Container>
-    // <div><h1>new pets work</h1></div>
   );
 };
 

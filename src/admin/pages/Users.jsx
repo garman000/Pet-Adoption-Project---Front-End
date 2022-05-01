@@ -15,8 +15,10 @@ const Users = () => {
         const responseData = await sendRequest("http://localhost:8080/users");
         setLoadedUsers(responseData.users);
         // console.log(responseData.users)
+        
         } catch (err) {}
     };
+
     fetchUsers();
   }, [sendRequest]);
 

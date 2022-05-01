@@ -73,23 +73,26 @@ const Auth = (props) => {
   const authSubmitHandler = async (event) => {
     event.preventDefault();
     if (isLoginMode) {
-        try {
-      const responseData = await sendRequest(
-        "http://localhost:8080/auth/login",
-        "POST",
-        JSON.stringify({
-          email: formState.inputs.email.value,
-          password: formState.inputs.password.value,
-        }),
-        { "Content-Type": "application/json" }
-      );
-
-      auth.login(responseData.user.id);
-      navigate("/home");
-    } catch (err) {}
-  } else {
       try {
-        const responseData = await sendRequest("http://localhost:8080/auth/signup", "POST", JSON.stringify({
+        const responseData = await sendRequest(
+          "http://localhost:8080/auth/login",
+          "POST",
+          JSON.stringify({
+            email: formState.inputs.email.value,
+            password: formState.inputs.password.value,
+          }),
+          { "Content-Type": "application/json" }
+        );
+        console.log('logintest', responseData.user.firstname)
+        auth.login(responseData.user.id);
+        navigate("/home");
+      } catch (err) {}
+    } else {
+      try {
+        const responseData = await sendRequest(
+          "http://localhost:8080/auth/signup",
+          "POST",
+          JSON.stringify({
             email: formState.inputs.email.value,
             password: formState.inputs.password.value,
             firstname: formState.inputs.firstname.value,
@@ -98,14 +101,14 @@ const Auth = (props) => {
           }),
           {
             "Content-Type": "application/json",
-          },
+          }
         );
         auth.login(responseData.user.id);
         navigate("/home");
       } catch (err) {}
-   };
-  }
- 
+    }
+  };
+
   return (
     <React.Fragment>
       <ErrorModal error={error} onClear={clearError} />
