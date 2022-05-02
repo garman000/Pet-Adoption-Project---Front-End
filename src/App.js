@@ -13,6 +13,7 @@ import { AuthContext } from "./shared/context/auth-context";
 import React from "react";
 import UpdateUsers from "./admin/pages/UpdateUsers"
 import MyProfile from "./homepages/pages/MyProfile";
+import localforage from "localforage";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -28,6 +29,8 @@ function App() {
   const logout = useCallback(() => {
     setIsLoggedIn(false);
     setUserId(null);
+    localforage.clear();
+    navigate("/")
   }, []);
 
   let routes;
@@ -70,7 +73,7 @@ function App() {
 
             <Route path="/users" element={<Users />} />
             <Route path="/:userId/mypets" element={<UserPets />} />
-            <Route path="/update/:userId" element={<UpdateUsers />} />
+            <Route path="/update" element={<UpdateUsers />} />
             <Route path="/pets/new" element={<NewPets />} />
             <Route path="/authenticate" element={<Auth />} />
 

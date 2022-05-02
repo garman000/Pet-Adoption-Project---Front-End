@@ -17,6 +17,7 @@ import "./Auth.css";
 import { useNavigate } from "react-router-dom";
 import ErrorModal from "../../shared/components/UIElements/ErrorModal";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
+import localforage from "localforage";
 
 const Auth = (props) => {
   const auth = useContext(AuthContext);
@@ -79,7 +80,7 @@ const Auth = (props) => {
   const authSubmitHandler = async (event) => {
     event.preventDefault();
 
-console.log(formState.inputs)
+
 
     if (isLoginMode) {
       try {
@@ -92,7 +93,8 @@ console.log(formState.inputs)
           }),
           { "Content-Type": "application/json" }
         );
-        console.log("logintest", responseData);
+        console.log("logintest", responseData.user.firstname);
+        localforage.setItem("userInfo", responseData.user)
         auth.login(responseData.user.id);
 
         navigate("/home");
@@ -106,21 +108,21 @@ console.log(formState.inputs)
         return;
       }
       try {
+        const formData = new FormData();
+        formData.append('email', formState.inputs.email.value)
+        formData.append('password', formState.inputs.password.value)
+        formData.append('confirmPassword', formState.inputs.confirmPassword.value)
+        formData.append('firstname', formState.inputs.firstname.value)
+        formData.append('lastname', formState.inputs.lastname.value)
+        formData.append('phonenumber', formState.inputs.phonenumber.value)
+        formData.append('image', formState.inputs.image.value)
+        console.log(formData)
         const responseData = await sendRequest(
           "http://localhost:8080/auth/signup",
           "POST",
-          JSON.stringify({
-            email: formState.inputs.email.value,
-            password: formState.inputs.password.value,
-            confirmPassword: formState.inputs.confirmPassword.value,
-            firstname: formState.inputs.firstname.value,
-            lastname: formState.inputs.lastname.value,
-            phonenumber: formState.inputs.phonenumber.value,
-          }),
-          {
-            "Content-Type": "application/json",
-          }
-        );
+          formData,
+          );
+       
         auth.login(responseData.user.id);
         navigate("/home");
       } catch (err) {}

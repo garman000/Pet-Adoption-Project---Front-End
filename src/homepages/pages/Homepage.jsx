@@ -1,16 +1,36 @@
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Container } from 'react-bootstrap';
 import "../components/Homepage.css";
 import { NavLink } from 'react-router-dom';
 import Button from "../../shared/components/FormElements/Button"
+import AuthContext from '../../shared/context/auth-context';
+import localforage from 'localforage';
 
 
 function Homepage(props) {
+//   const auth = useContext(AuthContext);
+const { isLoggedIn } = useContext(AuthContext) 
+  const [userInfo, setUserInfo] = useState("")
+useEffect(() => {
+    const getUserInfo = async () => {
+    const user = await localforage.getItem('userInfo')
+   if(user) {
+       setUserInfo(user)
+   } else {
+       setUserInfo({})
+   }
+}
+   
+   getUserInfo()
+
+}, [isLoggedIn])
+
+
     return (
         <Container>
             <div className="homepageIMG">
                 <div className='test'>
-                    <div className='display-4'> Welcome User, this is your home</div>
+                    <div className='display-4'> Welcome {userInfo.firstname}, this is your home</div>
                 </div>
             </div>
 
