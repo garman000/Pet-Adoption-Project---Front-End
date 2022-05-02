@@ -12,6 +12,7 @@ import Auth from "./admin/pages/Auth";
 import { AuthContext } from "./shared/context/auth-context";
 import React from "react";
 import UpdateUsers from "./admin/pages/UpdateUsers"
+import MyProfile from "./homepages/pages/MyProfile";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -63,6 +64,7 @@ function App() {
           <Routes>
             <Route path="/" element={<WelcomePage />} />
             <Route path="/home" element={<Homepage />} />
+            <Route path="/myprofile" element={<MyProfile />} />
 
             <Route path="/allanimals" element={<AllAnimals />} />
 

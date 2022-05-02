@@ -83,11 +83,19 @@ const Auth = (props) => {
           }),
           { "Content-Type": "application/json" }
         );
-        console.log('logintest', responseData.user.firstname)
+        console.log("logintest", responseData);
         auth.login(responseData.user.id);
+
         navigate("/home");
       } catch (err) {}
     } else {
+      if (
+        formState.inputs.password.value !==
+        formState.inputs.confirmPassword.value
+      ) {
+        alert("Passwords don't match");
+        return;
+      }
       try {
         const responseData = await sendRequest(
           "http://localhost:8080/auth/signup",
@@ -95,6 +103,7 @@ const Auth = (props) => {
           JSON.stringify({
             email: formState.inputs.email.value,
             password: formState.inputs.password.value,
+            confirmPassword: formState.inputs.confirmPassword.value,
             firstname: formState.inputs.firstname.value,
             lastname: formState.inputs.lastname.value,
             phonenumber: formState.inputs.phonenumber.value,
@@ -144,6 +153,15 @@ const Auth = (props) => {
                 label="Phone Number"
                 validators={[VALIDATOR_REQUIRE()]}
                 errorText="Please enter a valid phone number."
+                onInput={inputHandler}
+              />
+              <Input
+                element="input"
+                id="confirmPassword"
+                type="password"
+                label="Confirm Password"
+                validators={[VALIDATOR_MINLENGTH(5)]}
+                errorText="Passwords need to match"
                 onInput={inputHandler}
               />
             </React.Fragment>
