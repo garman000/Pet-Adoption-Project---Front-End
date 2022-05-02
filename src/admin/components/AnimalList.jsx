@@ -28,6 +28,7 @@ const AnimalList = (props) => {
               picture={pets.picture}
               breed={pets.breed}
               color={pets.color}
+              onDelete={props.onDeletePet}
 
              
             />

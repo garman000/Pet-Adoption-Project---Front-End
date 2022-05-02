@@ -1,23 +1,30 @@
 import React, { useState } from "react";
 import Button from "../../shared/components/FormElements/Button";
-
+import { useHttpClient } from "../../shared/hooks/http-hook";
 import Card from "../../shared/components/UIElements/Card";
 import bootstrap from "bootstrap";
 import Modal from "../../shared/components/UIElements/Modal";
+import ErrorModal from "../../shared/components/UIElements/ErrorModal";
+import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 
 const AnimalItem = (props) => {
+  const { isLoading, error, sendRequest, clearError } = useHttpClient()
     const [showConfirmModal, setShowConfirmModal] = useState(false)
 
     const showDeleteWarningHandler = () => setShowConfirmModal(true);
   const cancelDeleteHandler = () => setShowConfirmModal(false);
 
-  const confirmDeleteHandler = () => {
+  const confirmDeleteHandler = async () => {
     setShowConfirmModal(false);
-    console.log("deleting");
+    try {
+    await sendRequest(`http://localhost:8080/pet/${props.id}`, 'DELETE')
+    props.onDelete(props.id);
+    } catch (err) {}
   };
 
   return (
     <React.Fragment>
+      <ErrorModal error={error} onClear={clearError} />
       <Modal
        show={showConfirmModal}
        onCancel={cancelDeleteHandler}
@@ -34,6 +41,8 @@ const AnimalItem = (props) => {
       </Modal>
       <li className="user-item">
         <Card>
+      {isLoading && <LoadingSpinner asOverlay/>}
+
           <div className="user-item__content">
             <div className="user-item__image">
               <img className="petImage" src={props.picture} />
