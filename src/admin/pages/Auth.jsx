@@ -3,6 +3,7 @@ import React, { useContext, useState } from "react";
 import Card from "../../shared/components/UIElements/Card";
 import Input from "../../shared/components/FormElements/Input";
 import Button from "../../shared/components/FormElements/Button";
+import ImageUpload from "../../shared/components/FormElements/ImageUpload";
 
 import {
   VALIDATOR_EMAIL,
@@ -44,6 +45,7 @@ const Auth = (props) => {
         {
           ...formState.inputs,
           name: undefined,
+          image: undefined
         },
         formState.inputs.email.isValid && formState.inputs.password.isValid
       );
@@ -63,6 +65,10 @@ const Auth = (props) => {
             value: "",
             isValid: false,
           },
+          image: {
+            value: null,
+            isValid: false,
+          }
         },
         false
       );
@@ -72,6 +78,9 @@ const Auth = (props) => {
 
   const authSubmitHandler = async (event) => {
     event.preventDefault();
+
+console.log(formState.inputs)
+
     if (isLoginMode) {
       try {
         const responseData = await sendRequest(
@@ -126,6 +135,7 @@ const Auth = (props) => {
         <h2>Login Required</h2>
         <hr />
         <form onSubmit={authSubmitHandler}>
+          {!isLoginMode && <ImageUpload center id="image" onInput={inputHandler} />}
           {!isLoginMode && (
             <React.Fragment>
               <Input
