@@ -3,7 +3,7 @@ import React, { useContext, useState } from "react";
 import Card from "../../shared/components/UIElements/Card";
 import Input from "../../shared/components/FormElements/Input";
 import Button from "../../shared/components/FormElements/Button";
-import ImageUpload from "../../shared/components/FormElements/ImageUpload";
+// import ImageUpload from "../../shared/components/FormElements/ImageUpload";
 
 import {
   VALIDATOR_EMAIL,
@@ -46,7 +46,7 @@ const Auth = (props) => {
         {
           ...formState.inputs,
           name: undefined,
-          image: undefined
+          // image: undefined
         },
         formState.inputs.email.isValid && formState.inputs.password.isValid
       );
@@ -66,10 +66,7 @@ const Auth = (props) => {
             value: "",
             isValid: false,
           },
-          image: {
-            value: null,
-            isValid: false,
-          }
+         
         },
         false
       );
@@ -79,10 +76,9 @@ const Auth = (props) => {
 
   const authSubmitHandler = async (event) => {
     event.preventDefault();
+   
 
-
-
-    if (isLoginMode) {
+   if (isLoginMode) {
       try {
         const responseData = await sendRequest(
           "http://localhost:8080/auth/login",
@@ -96,37 +92,38 @@ const Auth = (props) => {
         console.log("logintest", responseData.user.firstname);
         localforage.setItem("userInfo", responseData.user)
         auth.login(responseData.user.id);
-
         navigate("/home");
       } catch (err) {}
     } else {
-      if (
-        formState.inputs.password.value !==
-        formState.inputs.confirmPassword.value
-      ) {
-        alert("Passwords don't match");
-        return;
-      }
-      try {
-        const formData = new FormData();
-        formData.append('email', formState.inputs.email.value)
-        formData.append('password', formState.inputs.password.value)
-        formData.append('confirmPassword', formState.inputs.confirmPassword.value)
-        formData.append('firstname', formState.inputs.firstname.value)
-        formData.append('lastname', formState.inputs.lastname.value)
-        formData.append('phonenumber', formState.inputs.phonenumber.value)
-        formData.append('image', formState.inputs.image.value)
-        console.log(formData)
-        const responseData = await sendRequest(
-          "http://localhost:8080/auth/signup",
-          "POST",
-          formData,
+      if (formState.inputs.password.value !==  formState.inputs.confirmPassword.value
+        ) {
+          alert("Passwords don't match");
+          return;
+        }
+        try {
+          const responseData = await sendRequest(
+            "http://localhost:8080/auth/signup",
+            "POST",
+            JSON.stringify({
+              firstname: formState.inputs.firstname.value,
+              lastname: formState.inputs.lastname.value,
+              email: formState.inputs.email.value,
+              phonenumber: formState.inputs.phonenumber.value,
+              password: formState.inputs.password.value,
+              // confirmPassword: formState.inputs.confirmPassword.value,
+            }),
+            {
+              "Content-Type": "application/json",
+            },
+            console.log(formState.inputs)
+           
+          
           );
-       
+    
         auth.login(responseData.user.id);
         navigate("/home");
       } catch (err) {}
-    }
+    } 
   };
 
   return (
@@ -137,7 +134,7 @@ const Auth = (props) => {
         <h2>Login Required</h2>
         <hr />
         <form onSubmit={authSubmitHandler}>
-          {!isLoginMode && <ImageUpload center id="image" onInput={inputHandler} />}
+          {/* {!isLoginMode && <ImageUpload center id="image" onInput={inputHandler} />} */}
           {!isLoginMode && (
             <React.Fragment>
               <Input
@@ -200,6 +197,7 @@ const Auth = (props) => {
             type="button"
             onClick={authSubmitHandler}
             disabled={!formState.isValid}
+            
           >
             {isLoginMode ? "LOGIN" : "SIGNUP"}
           </Button>

@@ -17,7 +17,7 @@ const UserItem = (props) => {
             <h2>
               {props.firstname} {props.lastname}
             </h2>
-
+            <h3>{props.email}</h3>
             <h3>
               {props.petCount} {props.petCount === 1 ? "Pet" : "Pets"}
             </h3>

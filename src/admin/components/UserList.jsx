@@ -29,6 +29,7 @@ function UserList(props) {
             firstname={users.firstname}
             lastname={users.lastname}
             petCount={users.pets.length}
+            email={users.email}
           />
         ))}
       </ul>

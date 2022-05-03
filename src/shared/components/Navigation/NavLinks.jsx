@@ -5,7 +5,8 @@ import AuthContext from "../../context/auth-context";
 import "./NavLinks.css";
 // import logo from "../../images/logo.png"
 const NavLinks = (props) => {
-  const auth = useContext(AuthContext);
+  const {isAdmin} = useContext(AuthContext);
+  const auth = useContext(AuthContext)
   const navigate = useNavigate()
 
   const navigateOut = () => {
@@ -36,20 +37,20 @@ const NavLinks = (props) => {
           </NavLink>
         </li>
       )}
-     
+     {isAdmin ?  (
         <li>
           <NavLink to="/allanimals" exact>
             Search Animals
           </NavLink>
-        </li>
+        </li>) : "" }
   
-      {/* {auth.isAdmin && (  */}
+      {isAdmin ? (
       <li>
         <NavLink to="/users" exact>
           All Users
         </NavLink>
-      </li>
-      {/* } */}
+      </li> ): "" }
+  
       {auth.isLoggedIn && (
         <li>
           <NavLink to={`/${auth.userId}/mypets`}>My Pets</NavLink>
@@ -60,11 +61,16 @@ const NavLinks = (props) => {
           <NavLink to={`/users/${auth.userId}`}>Update User</NavLink>
         </li>
       )}
-      {auth.isLoggedIn && (
+        {auth.isLoggedIn && (
+        <li>
+          <NavLink to={`/pet/${auth.petId}`}>Update Pet</NavLink>
+        </li>
+      )}
+      {isAdmin ? (
         <li>
           <NavLink to="/pets/new">Add Pets</NavLink>
         </li>
-      )}
+      ) : ""}
       {!auth.isLoggedIn && (
         <li>
           <NavLink to="/authenticate">Authenticate</NavLink>

@@ -14,25 +14,6 @@ import Card from "../../shared/components/UIElements/Card";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 import ErrorModal from "../../shared/components/UIElements/ErrorModal";
 
-// const DUMMY_USER = [
-//   {
-//     id: "p1",
-//     firstname: "Michael",
-//     lastname: "Carrick",
-//     email: "carrick@mufc.com",
-//     password: "111111",
-//     creator: "u1",
-//   },
-//   {
-//     id: "p2",
-//     firstname: "Dimitar",
-//     lastname: "Berbatov",
-//     email: "manutd",
-//     password: "111111",
-//     creator: "u2",
-//   },
-// ];
-
 const UpdateUser = () => {
   const { isLoading, error, sendRequest, clearError } = useHttpClient()
   const [ loadedUsers, setloadedUsers] = useState()
