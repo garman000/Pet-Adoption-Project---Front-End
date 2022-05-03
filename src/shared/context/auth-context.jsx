@@ -5,7 +5,7 @@ export const AuthContext = createContext({
   userId: "",
   login: () => {},
   logout: () => {},
-  isAdmin: true
+  isAdmin: false
 });
 
 export default AuthContext;

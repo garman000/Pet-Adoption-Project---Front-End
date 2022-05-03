@@ -3,7 +3,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 
 import AuthContext from "../../context/auth-context";
 import "./NavLinks.css";
-
+// import logo from "../../images/logo.png"
 const NavLinks = (props) => {
   const auth = useContext(AuthContext);
   const navigate = useNavigate()
@@ -36,18 +36,20 @@ const NavLinks = (props) => {
           </NavLink>
         </li>
       )}
-      {auth.isLoggedIn && (
+     
         <li>
           <NavLink to="/allanimals" exact>
             Search Animals
           </NavLink>
         </li>
-      )}
+  
+      {/* {auth.isAdmin && (  */}
       <li>
         <NavLink to="/users" exact>
           All Users
         </NavLink>
       </li>
+      {/* } */}
       {auth.isLoggedIn && (
         <li>
           <NavLink to={`/${auth.userId}/mypets`}>My Pets</NavLink>
@@ -55,10 +57,10 @@ const NavLinks = (props) => {
       )}
       {auth.isLoggedIn && (
         <li>
-          <NavLink to={`/update/${auth.userId}`}>Update User</NavLink>
+          <NavLink to={`/users/${auth.userId}`}>Update User</NavLink>
         </li>
       )}
-      {auth.isAdmin && auth.isLoggedIn && (
+      {auth.isLoggedIn && (
         <li>
           <NavLink to="/pets/new">Add Pets</NavLink>
         </li>

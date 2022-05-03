@@ -6,6 +6,7 @@ import SideDrawer from "./SideDrawer";
 import NavLinks from "./NavLinks";
 import Backdrop from "../UIElements/Backdrop";
 import "./MainNavigation.css";
+import logo from "./navimage/logo.png"
 
 const MainNavigation = (props) => {
   const [drawerIsOpen, setDrawerIsOpen] = useState(false);
@@ -34,7 +35,7 @@ const MainNavigation = (props) => {
           <span />
         </button>
         <h1 className="main-navigation__title">
-          <Link to="/"> Your Pets </Link>
+          <Link to="/"><img src={logo} width="200"/> </Link>
         </h1>
         <nav>
           <NavLinks />
