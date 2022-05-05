@@ -191,7 +191,7 @@ const NewPets = () => {
           id="picture"
           element=""
           type=""
-          label="Status"
+          label="Picture"
           validators={[VALIDATOR_REQUIRE()]}
           errorText="Animal Status"
           onInput={inputHandler}

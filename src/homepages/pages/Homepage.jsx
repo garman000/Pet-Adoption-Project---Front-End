@@ -5,12 +5,13 @@ import { NavLink } from "react-router-dom";
 import Button from "../../shared/components/FormElements/Button";
 import AuthContext from "../../shared/context/auth-context";
 import localforage from "localforage";
+// import AuthContext from "../../context/auth-context";
 
 function Homepage(props) {
   const { setIsAdmin } = useContext(AuthContext);
   const { isLoggedIn } = useContext(AuthContext);
-
   const [userInfo, setUserInfo] = useState("");
+  const auth = useContext(AuthContext);
 
   useEffect(() => {
     const getUserInfo = async () => {
@@ -35,12 +36,13 @@ function Homepage(props) {
             {" "}
             Welcome {userInfo.firstname}, this is your home
           </div>
+        <div className="buttons">
+          <Button to="/allanimals">Search</Button>
+          <Button to={`/${auth.userId}/mypets`}>MyPets</Button>
+          <Button>Settings</Button>
+        </div>
         </div>
       </div>
-
-      <Button>Search</Button>
-      <Button>MyPets</Button>
-      <Button>Settings</Button>
     </Container>
   );
 }

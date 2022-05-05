@@ -8,23 +8,69 @@ import ErrorModal from "../../shared/components/UIElements/ErrorModal";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 import Auth from "../pages/Auth";
 import AuthContext from "../../shared/context/auth-context";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const AnimalItem = (props) => {
   const auth = useContext(AuthContext);
+  const { userId , userInfo} = useContext(AuthContext)
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
   const [showConfirmModal, setShowConfirmModal] = useState(false);
-
+  const {id} = props
+  const navigate = useNavigate()
   const showDeleteWarningHandler = () => setShowConfirmModal(true);
   const cancelDeleteHandler = () => setShowConfirmModal(false);
+  const [isSaved, setIsSaved] = useState(false);
 
   const confirmDeleteHandler = async () => {
     setShowConfirmModal(false);
     try {
-      await sendRequest(`http://localhost:8080/pet/${props.id}`, "DELETE");
-      props.onDelete(props.id);
+      await sendRequest(`http://localhost:8080/pet/${id}`, "DELETE");
+      props.onDelete(id);
     } catch (err) {}
   };
+  function showMore(id) {
+    navigate(`/showpets/${id}`);    
+  }
+  const savePetHandler = async (e) => {
+    e.preventDefault();
+    
+      try {
+        const responseData = await sendRequest(
+          `http://localhost:8080/pet/${userId}/save`,
+          "POST",
+          JSON.stringify({
+            _id: props.id,
+          }),
+          {
+            "Content-Type": "application/json",
+           
+          }
+         
+        );
+        props.onSave(responseData.pet);
+        console.log(props.id);
+        console.log(responseData.pet);
+        console.log(auth.token);
+        console.log(userId);
+        setIsSaved(true);
 
+      } catch (err) {
+      }
+      alert("Pet saved!");
+      // history.push("/pet/user/:userId");
+
+    };
+  async function fostered(){
+    try {
+      const repsonse = await axios.post(`
+      http://localhost:8080/pet/${id}/fostered`, userId )
+      console.log(userInfo)
+    } catch (err) {
+      
+    }
+
+  }
   return (
     <React.Fragment>
       <ErrorModal error={error} onClear={clearError} />
@@ -55,6 +101,8 @@ const AnimalItem = (props) => {
               <img className="petImage" src={props.picture} />
             </div>
             <div className="user-item__info">
+              
+              <h1>{props.name}</h1>
               <h2>{props.type}</h2>
               <p>
                 <strong>Breed: </strong>
@@ -74,9 +122,10 @@ const AnimalItem = (props) => {
             </div>
           </div>
           <div className="place-item__actions">
-            <Button inverse>Save</Button>
+            <Button inverse onClick={()=> showMore(id)}>Bio</Button>
+            <Button inverse onClick={savePetHandler}>Save</Button>
             <Button inverse>Adopt</Button>
-            <Button inverse>Foster</Button>
+            <Button inverse onClick={() => fostered(id)}>Foster</Button>
             {auth.isLoggedIn && (
               <React.Fragment>
                 <Button onClick={showDeleteWarningHandler}>Remove</Button>

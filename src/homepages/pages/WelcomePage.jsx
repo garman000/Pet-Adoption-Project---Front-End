@@ -81,24 +81,24 @@ const WelcomePage = (props) => {
           <h1 className="display-4">DO YOU LOVE ANIMALS?</h1>
           <h4 className="py-2">Want to Foster or Adopt?</h4>
           <div className="buttonControl">
-            <Button variant="outline-dark" to="/search" as={NavLink}>
+            {/* <Button variant="outline-dark" to="/search" as={NavLink}>
               See Our Animals
-            </Button>
-            <Button
+            </Button> */}
+            {/* <Button
               className="btn btn-outline-dark btn-sm"
               //   modalShow={showSignUp}
               onClick={openModalHandler}
               variant="outline-dark"
             >
               Sign-Up
-            </Button>
+            </Button> */}
             <Button
               className="btn btn-outline-dark btn-sm"
               // onClick={showDeleteWarningHandler}
               onClick={openModalHandler}
               variant="outline-dark"
             >
-              Login
+              SignUp/Login
             </Button>
           </div>
         </div>

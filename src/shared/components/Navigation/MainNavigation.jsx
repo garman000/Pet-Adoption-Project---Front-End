@@ -35,7 +35,9 @@ const MainNavigation = (props) => {
           <span />
         </button>
         <h1 className="main-navigation__title">
-          <Link to="/"><img src={logo} width="200"/> </Link>
+          <div className="logoTest">
+          <Link to="/home"><img src={logo} width="200" /> </Link>
+          </div>
         </h1>
         <nav>
           <NavLinks />

@@ -65,6 +65,10 @@ const UpdateUser = () => {
               value: responseData.user.email,
               isValid: true,
             },
+            bio: {
+              value: responseData.user.bio,
+              isValid: true,
+            },
             password: {
               value: responseData.user.password,
               isValid: true,
@@ -86,7 +90,9 @@ const UpdateUser = () => {
       firstname: formState.inputs.firstname.value,
       lastname: formState.inputs.lastname.value,
       email: formState.inputs.email.value,
-      password: formState.inputs.firstname.value,
+      bio: formState.inputs.bio.value,
+      password: formState.inputs.firstname.value
+
   }),
   {
     'Content-Type': 'application/json'
@@ -147,6 +153,17 @@ const UpdateUser = () => {
         errorText="Please enter your email"
         onInput={inputHandler}
         initialValue={loadedUsers.email}
+        initialValid={true}
+      />
+       <Input
+        id="bio"
+        element="textarea"
+        label="Bio"
+        type="bio"
+        validators={[VALIDATOR_REQUIRE()]}
+        errorText="Please enter some personal information"
+        onInput={inputHandler}
+        initialValue={loadedUsers.bio}
         initialValid={true}
       />
       <Input

@@ -1,11 +1,13 @@
 .homepageIMG {
     background-image: url("/images/karsten-winegeart-_PzCi_UwKso-unsplash_ccexpress.jpeg");
-    height: 30rem;
+    height: 35rem;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
     position: relative;
     opacity: 0.8;
+    max-height: 35rem;
+    margin-top: 5rem;
   }
   .test {
     font-family: "Oswald", sans-serif;
@@ -14,12 +16,21 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    color: black;
+    color: white;
     font-weight: bold;
     opacity: 1.5;
     padding: 0.6rem;
     /* background-color: white; */
     width: 70%;
     text-transform: capitalize;
+    font-size: 3rem;
+  }
+
+  .buttons {
+    display: flex;
+    font-size: 1rem;
+    justify-content: center;
+    gap: 3rem;
+    padding: 1rem;
   }
   

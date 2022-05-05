@@ -14,12 +14,14 @@ import React from "react";
 import UpdateUsers from "./admin/pages/UpdateUsers"
 import MyProfile from "./homepages/pages/MyProfile";
 import localforage from "localforage";
+import ShowPetsX from "./pets/pages/ShowPetsX";
 
-function App() {
+function App({userInfo}) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userId, setUserId] = useState(false)
    const navigate = useNavigate();
   const [isAdmin, setIsAdmin] = useState(false)
+  const [pet, setPet] = useState('')
 
   const login = useCallback((uid) => {
     setIsLoggedIn(true);
@@ -39,7 +41,7 @@ function App() {
     routes = (
       <React.Fragment>
         <Route path="/" element={<WelcomePage />} />
-        <Route path="/homepage" element={<Homepage />} />
+        <Route path="/homepage" element={<Homepage userInfo={userInfo} />} />
         
         <Route path="/allanimals" element={<AllAnimals />} />
         <Route path="/:userId/mypets" element={<UserPets />} />
@@ -59,7 +61,7 @@ function App() {
 
   return (
     <AuthContext.Provider
-      value={{ isLoggedIn: isLoggedIn, userId: userId, login: login, logout: logout, isAdmin: isAdmin, setIsAdmin: setIsAdmin }}
+      value={{userInfo:userInfo, isLoggedIn: isLoggedIn, userId: userId, login: login, logout: logout, isAdmin: isAdmin, setIsAdmin: setIsAdmin, pet: pet, setPet: setPet }}
     >
       <div>
         <MainNavigation />
@@ -76,6 +78,7 @@ function App() {
             <Route path="/users/:userId" element={<UpdateUsers />} />
             <Route path="/pets/new" element={<NewPets />} />
             <Route path="/authenticate" element={<Auth />} />
+            <Route path="/showpets" element={<ShowPetsX />} />
 
             {/* <Route path="/pets/:petId" element={<UpdatePets />}/> */}
           </Routes>
