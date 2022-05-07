@@ -9,6 +9,7 @@ import WelcomePage from "./homepages/pages/WelcomePage";
 import Homepage from "./homepages/pages/Homepage";
 import AllAnimals from "./admin/pages/AllAnimals";
 import Auth from "./admin/pages/Auth";
+import UpdatePet from "./admin/components/UpdatePet"
 import { AuthContext } from "./shared/context/auth-context";
 import React from "react";
 import UpdateUsers from "./admin/pages/UpdateUsers"
@@ -17,27 +18,38 @@ import localforage from "localforage";
 import ShowPetsX from "./pets/pages/ShowPetsX";
 
 function App({userInfo}) {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  // const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [token, setToken] = useState(false)
   const [userId, setUserId] = useState(false)
    const navigate = useNavigate();
   const [isAdmin, setIsAdmin] = useState(false)
   const [pet, setPet] = useState('')
+  const [petId, setPetId] = useState(false)
 
-  const login = useCallback((uid) => {
-    setIsLoggedIn(true);
+  const login = useCallback((uid, token) => {
+    // setIsLoggedIn(true);
+    setToken(token)
     setUserId(uid);
+    setIsAdmin(true)
   }, []);
 
   const logout = useCallback(() => {
-    setIsLoggedIn(false);
+    // setIsLoggedIn(false);
+    setToken(null)
     setUserId(null);
+    setIsAdmin(false)
     localforage.clear();
     navigate("/")
   }, []);
 
+    const getPetId = useCallback((pid) => {
+      setPetId(pid)
+    })
+    
    let routes;
 
-  if (isLoggedIn) {
+  // if (isLoggedIn) {
+    if (token) {
     routes = (
       <React.Fragment>
         <Route path="/" element={<WelcomePage />} />
@@ -61,7 +73,7 @@ function App({userInfo}) {
 
   return (
     <AuthContext.Provider
-      value={{userInfo:userInfo, isLoggedIn: isLoggedIn, userId: userId, login: login, logout: logout, isAdmin: isAdmin, setIsAdmin: setIsAdmin, pet: pet, setPet: setPet }}
+      value={{userInfo:userInfo, /*isLoggedIn: isLoggedIn,*/ token: token, isLoggedIn: !!token,  userId: userId, login: login, logout: logout, isAdmin: isAdmin, setIsAdmin: setIsAdmin, pet: pet, setPet: setPet, getPetId: getPetId, petId: petId }}
     >
       <div>
         <MainNavigation />
@@ -69,14 +81,17 @@ function App({userInfo}) {
           <Routes>
             <Route path="/" element={<WelcomePage />} />
             <Route path="/home" element={<Homepage />} />
-            <Route path="/myprofile" element={<MyProfile />} />
+            <Route path="/myprofile/:userId" element={<MyProfile /> } />
 
             <Route path="/allanimals" element={<AllAnimals />} />
 
             <Route path="/users" element={<Users />} />
             <Route path="/:userId/mypets" element={<UserPets />} />
             <Route path="/users/:userId" element={<UpdateUsers />} />
-            <Route path="/pets/new" element={<NewPets />} />
+            <Route path="/pet/new" element={<NewPets />} />
+            <Route path="/pet/:pid/update" element={<UpdatePet />} />
+
+
             <Route path="/authenticate" element={<Auth />} />
             <Route path="/showpets" element={<ShowPetsX />} />
 

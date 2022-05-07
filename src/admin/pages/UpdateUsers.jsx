@@ -43,9 +43,7 @@ const UpdateUser = () => {
     false
   );
 
-  // const identifiedUser = DUMMY_USER.find((p) => p.id === userId);
-
-  useEffect(() => {
+   useEffect(() => {
     const fetchUser = async () => {
       try {
         const responseData = await sendRequest(`http://localhost:8080/users/${userId}`)

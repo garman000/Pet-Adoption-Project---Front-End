@@ -17,14 +17,14 @@ import ImageUpload from "../../shared/components/FormElements/ImageUpload";
 
 const NewPets = () => {
   const auth = useContext(AuthContext);
-  const [addPicture, setAddPicture] = useState()
+  const [addPicture, setAddPicture] = useState();
   const navigate = useNavigate();
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
   const [formState, inputHandler] = useForm(
     {
       image: {
         value: null,
-        isValid: false
+        isValid: false,
       },
       name: {
         value: "",
@@ -72,16 +72,16 @@ const NewPets = () => {
       },
     },
     false
-    );
+  );
 
-    const handleImageUpload  = (e) => {
-      console.log(e.target.files[0])
-      setAddPicture(e.target.files[0])
-    }
+  const handleImageUpload = (e) => {
+    console.log(e.target.files[0]);
+    setAddPicture(e.target.files[0]);
+  };
 
   const petSubmitHandler = async (event) => {
     event.preventDefault();
-    console.log(formState.inputs)
+    console.log(formState.inputs);
 
     try {
       await sendRequest(
@@ -100,25 +100,33 @@ const NewPets = () => {
           picture: formState.inputs.picture.value,
           status: formState.inputs.status.value,
           savedby: auth.userId,
+          image: formState.inputs.image.value,
         }),
-        { "Content-Type": "application/json" }
+        {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + auth.token,
+        }
       );
       navigate("/allanimals");
     } catch (err) {}
   };
-
 
   return (
     <>
       <div>
         <h1>NEW PETS</h1>
       </div>
-      
+
       <React.Fragment>
         <ErrorModal error={error} onClear={clearError} />
         <form className="place-form" onSubmit={petSubmitHandler}>
           {isLoading && <LoadingSpinner asOverlay />}
-          <ImageUpload center id="image" onInput={inputHandler}/>
+          <ImageUpload
+            center
+            id="image"
+            onInput={inputHandler}
+            element="input"
+          />
           <Input
             id="type"
             element="input"

@@ -25,7 +25,7 @@ const NavLinks = (props) => {
       )}
       {auth.isLoggedIn && ( 
           <li>
-          <NavLink to="/myprofile" >
+          <NavLink to={`/myprofile/${auth.userId}`} >
             My Profile
           </NavLink>
         </li>
@@ -37,12 +37,12 @@ const NavLinks = (props) => {
           </NavLink>
         </li>
       )}
-     {isAdmin ?  (
+     {auth.isLoggedIn && (
         <li>
           <NavLink to="/allanimals" exact>
             Search Animals
           </NavLink>
-        </li>) : "" }
+        </li>)}
   
       {isAdmin ? (
       <li>
@@ -63,12 +63,12 @@ const NavLinks = (props) => {
       )}
         {auth.isLoggedIn && (
         <li>
-          <NavLink to={`/pet/${auth.petId}`}>Update Pet</NavLink>
+          <NavLink to={`/pet/${auth.petId}/update`}>Update Pet</NavLink>
         </li>
       )}
       {isAdmin ? (
         <li>
-          <NavLink to="/pets/new">Add Pets</NavLink>
+          <NavLink to="/pet/new">Add Pets</NavLink>
         </li>
       ) : ""}
       {!auth.isLoggedIn && (

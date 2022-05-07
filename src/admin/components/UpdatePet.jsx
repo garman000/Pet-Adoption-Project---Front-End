@@ -78,10 +78,10 @@ const UpdatePet = () => {
   useEffect(() => {
     const fetchPet = async () => {
       try {
-        const responseData = await sendRequest(`http://localhost:8080/pet/${petId}`)
-        console.log('usertest', responseData)
-        console.log()
-        setloadedUsers(responseData.user)
+        const responseData = await sendRequest(`http://localhost:8080/pet/${petId}/update`)
+        console.log('PetTest', responseData)
+        
+        setloadedPets(responseData.pets)
         setFormData(
           {
             type: {
@@ -159,6 +159,7 @@ const UpdatePet = () => {
       dietaryrequirements: formState.inputs.dietaryrequirements.value,
       breed: formState.inputs.breed.value,
       owner: formState.inputs.owner.value,
+      image: formState.inputs.image.value
   }),
   {
     'Content-Type': 'application/json'
@@ -175,7 +176,7 @@ const UpdatePet = () => {
       )
   }
 
-  if (!loadedUsers && !error) {
+  if (!loadedPets && !error) {
     return (
       <Card className="center">
         <h2>Could not find User!</h2>
@@ -187,7 +188,7 @@ const UpdatePet = () => {
   return (
     <React.Fragment>
       <ErrorModal error={error} onClear={clearError} /> 
-    {!isLoading && loadedUsers && (<form className="place-form" onSubmit={userUpdateSubmitHandler}>
+    {!isLoading && loadedPets && (<form className="place-form" onSubmit={userUpdateSubmitHandler}>
       <Input
         id="type"
         element="input"
@@ -196,7 +197,7 @@ const UpdatePet = () => {
         validators={[VALIDATOR_REQUIRE()]}
         errorText="Please enter a valid title."
         onInput={inputHandler}
-        initialValue={loadedUsers.firstname}
+        initialValue={loadedPets.type}
         initialValid={true}
       />
 
@@ -207,7 +208,7 @@ const UpdatePet = () => {
         validators={[VALIDATOR_REQUIRE()]}
         errorText="Please enter a valid description (min. 5 characters)."
         onInput={inputHandler}
-        initialValue={loadedUsers.lastname}
+        initialValue={loadedPets.name}
         initialValid={true}
       />
       <Input
@@ -218,7 +219,7 @@ const UpdatePet = () => {
         validators={[VALIDATOR_REQUIRE()]}
         errorText="Please enter your email"
         onInput={inputHandler}
-        initialValue={loadedUsers.email}
+        initialValue={loadedPets.status}
         initialValid={true}
       />
       <Input
@@ -229,7 +230,7 @@ const UpdatePet = () => {
         validators={[VALIDATOR_REQUIRE()]}
         errorText="Please enter your email"
         onInput={inputHandler}
-        initialValue={loadedUsers.password}
+        initialValue={loadedPets.picture}
         initialValid={true}
       />
       <Input
@@ -240,7 +241,7 @@ const UpdatePet = () => {
         validators={[VALIDATOR_REQUIRE()]}
         errorText="Please enter your email"
         onInput={inputHandler}
-        initialValue={loadedUsers.password}
+        initialValue={loadedPets.height}
         initialValid={true}
       />
       <Input
@@ -251,7 +252,7 @@ const UpdatePet = () => {
       validators={[VALIDATOR_REQUIRE()]}
       errorText="Please enter your email"
       onInput={inputHandler}
-      initialValue={loadedUsers.password}
+      initialValue={loadedPets.weight}
       initialValid={true}
     />
     <Input
@@ -262,7 +263,7 @@ const UpdatePet = () => {
         validators={[VALIDATOR_REQUIRE()]}
         errorText="Please enter your email"
         onInput={inputHandler}
-        initialValue={loadedUsers.password}
+        initialValue={loadedPets.color}
         initialValid={true}
       />
       <Input
@@ -273,7 +274,7 @@ const UpdatePet = () => {
         validators={[VALIDATOR_REQUIRE()]}
         errorText="Please enter your email"
         onInput={inputHandler}
-        initialValue={loadedUsers.password}
+        initialValue={loadedPets.bio}
         initialValid={true}
       />
       <Input
@@ -284,7 +285,7 @@ const UpdatePet = () => {
         validators={[VALIDATOR_REQUIRE()]}
         errorText="Please enter your email"
         onInput={inputHandler}
-        initialValue={loadedUsers.password}
+        initialValue={loadedPets.hypoallergenic}
         initialValid={true}
       />
       <Input
@@ -295,7 +296,7 @@ const UpdatePet = () => {
         validators={[VALIDATOR_REQUIRE()]}
         errorText="Please enter your email"
         onInput={inputHandler}
-        initialValue={loadedUsers.password}
+        initialValue={loadedPets.dietaryrequirements}
         initialValid={true}
       />
       <Input
@@ -306,7 +307,7 @@ const UpdatePet = () => {
         validators={[VALIDATOR_REQUIRE()]}
         errorText="Please enter your email"
         onInput={inputHandler}
-        initialValue={loadedUsers.password}
+        initialValue={loadedPets.breed}
         initialValid={true}
       />
       <Input
@@ -317,7 +318,7 @@ const UpdatePet = () => {
         validators={[VALIDATOR_REQUIRE()]}
         errorText="Please enter your email"
         onInput={inputHandler}
-        initialValue={loadedUsers.password}
+        initialValue={loadedPets.owner}
         initialValid={true}
       />
       <Button type="submit" disabled={!formState.isValid}>

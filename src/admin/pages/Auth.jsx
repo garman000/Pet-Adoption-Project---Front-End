@@ -91,8 +91,9 @@ const Auth = (props) => {
         );
         console.log("logintest", responseData.user.firstname);
         localforage.setItem("userInfo", responseData.user)
-        auth.login(responseData.user.id);
+        auth.login(responseData.user.id, responseData.token);
         navigate("/home");
+        console.log('jwttest', responseData)
       } catch (err) {}
     } else {
       if (formState.inputs.password.value !==  formState.inputs.confirmPassword.value
@@ -115,12 +116,12 @@ const Auth = (props) => {
             {
               "Content-Type": "application/json",
             },
-            console.log(formState.inputs)
-           
-          
-          );
+            
+            
+            );
+            console.log('token test', responseData)
     
-        auth.login(responseData.user.id);
+        auth.login(responseData.user.id, responseData.token);
         navigate("/home");
       } catch (err) {}
     } 

@@ -34,12 +34,12 @@ function Homepage(props) {
         <div className="test">
           <div className="display-4">
             {" "}
-            Welcome {userInfo.firstname}, this is your home
+            Welcome {userInfo.firstname} {userInfo.lastname}, this is your home
           </div>
         <div className="buttons">
           <Button to="/allanimals">Search</Button>
           <Button to={`/${auth.userId}/mypets`}>MyPets</Button>
-          <Button>Settings</Button>
+          <Button to={`/myprofile/${auth.userId}`}>My Profile</Button>
         </div>
         </div>
       </div>

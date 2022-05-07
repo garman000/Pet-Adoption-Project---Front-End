@@ -13,3 +13,7 @@
   .authentication form {
     margin-bottom: 1rem;
   }
+
+  .searchControl {
+    border: 1px solid blue;
+  }
