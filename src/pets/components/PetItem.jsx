@@ -59,7 +59,7 @@ const PetItem = (props) => {
 
           <div className="place-item__actions">
            <Button inverse>BIO</Button>
-           {auth.isLoggedIn && <Button to={`/pets/${props.id}`}>EDIT PET</Button>}
+           {auth.isLoggedIn && <Button to={`/pet/${props.id}`}>EDIT PET</Button>}
             {auth.isLoggedIn && <Button danger onClick={showDeleteWarningHandler}> 
               REMOVE PET
             </Button>}

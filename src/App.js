@@ -89,7 +89,7 @@ function App({userInfo}) {
             <Route path="/:userId/mypets" element={<UserPets />} />
             <Route path="/users/:userId" element={<UpdateUsers />} />
             <Route path="/pet/new" element={<NewPets />} />
-            <Route path="/pet/:pid/update" element={<UpdatePet />} />
+            <Route path="/pet/:petId" element={<UpdatePet />} />
 
 
             <Route path="/authenticate" element={<Auth />} />

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 import Input from "../../shared/components/FormElements/Input";
@@ -13,8 +13,11 @@ import "../../pets/pages/NewPets.css";
 import Card from "../../shared/components/UIElements/Card";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 import ErrorModal from "../../shared/components/UIElements/ErrorModal";
+import AuthContext from "../../shared/context/auth-context";
 
 const UpdatePet = () => {
+  const auth = useContext(AuthContext);
+
   const { isLoading, error, sendRequest, clearError } = useHttpClient()
   const [ loadedPets, setloadedPets] = useState()
   const petId = useParams().petId;
@@ -67,10 +70,10 @@ const UpdatePet = () => {
         value: "",
         isValid: false,
       },
-       owner: {
-        value: "",
-        isValid: false,
-      },
+      //  owner: {
+      //   value: "",
+      //   isValid: false,
+      // },
     },
     false
   );
@@ -78,58 +81,58 @@ const UpdatePet = () => {
   useEffect(() => {
     const fetchPet = async () => {
       try {
-        const responseData = await sendRequest(`http://localhost:8080/pet/${petId}/update`)
+        const responseData = await sendRequest(`http://localhost:8080/pet/${petId}`)
         console.log('PetTest', responseData)
         
-        setloadedPets(responseData.pets)
+        setloadedPets(responseData.pet)
         setFormData(
           {
             type: {
-              value: responseData.user.type,
+              value: responseData.pet.type,
               isValid: true,
             },
             name: {
-              value: responseData.user.name,
+              value: responseData.pet.name,
               isValid: true,
             },
             status: {
-              value: responseData.user.status,
+              value: responseData.pet.status,
               isValid: true,
             },
             picture: {
-              value: responseData.user.picture,
+              value: responseData.pet.picture,
               isValid: true,
             },
             height: {
-                value: responseData.user.height,
+                value: responseData.pet.height,
                 isValid: true,
               },
               weight: {
-                value: responseData.user.weight,
+                value: responseData.pet.weight,
                 isValid: true,
               },
               color: {
-                value: responseData.user.color,
+                value: responseData.pet.color,
                 isValid: true,
               },
               bio: {
-                value: responseData.user.bio,
+                value: responseData.pet.bio,
                 isValid: true,
               },
               hypoallergenic: {
-                value: responseData.user.hypoallergenic,
+                value: responseData.pet.hypoallergenic,
                 isValid: true,
               },
               dietaryrequirements: {
-                value: responseData.user.dietaryrequirements,
+                value: responseData.pet.dietaryrequirements,
                 isValid: true,
               },
               breed: {
-                value: responseData.user.breed,
+                value: responseData.pet.breed,
                 isValid: true,
               },
               owner: {
-                value: responseData.user.owner,
+                value: responseData.pet.owner,
                 isValid: true,
               },
 
@@ -146,7 +149,7 @@ const UpdatePet = () => {
   const userUpdateSubmitHandler = async (event) => {
     event.preventDefault();
     try {
-    await sendRequest(`http://localhost:8080/users/${petId}`, 'PUT', JSON.stringify({
+    await sendRequest(`http://localhost:8080/pet/${petId}`, 'PUT', JSON.stringify({
       type: formState.inputs.type.value,
       name: formState.inputs.name.value,
       status: formState.inputs.status.value,
@@ -158,13 +161,14 @@ const UpdatePet = () => {
       hypoallergenic: formState.inputs.hypoallergenic.value,
       dietaryrequirements: formState.inputs.dietaryrequirements.value,
       breed: formState.inputs.breed.value,
-      owner: formState.inputs.owner.value,
-      image: formState.inputs.image.value
+      // owner: formState.inputs.owner.value,
+      // image: formState.inputs.image.value
   }),
   {
     'Content-Type': 'application/json'
   })
-  navigate('/home')
+  // navigate('/' + auth.petId + '/pets')
+  navigate('/allanimals')
   } catch (err) {}
 }
 
@@ -179,7 +183,7 @@ const UpdatePet = () => {
   if (!loadedPets && !error) {
     return (
       <Card className="center">
-        <h2>Could not find User!</h2>
+        <h2>Could not find Pet!</h2>
       </Card>
     );
   }
@@ -310,7 +314,7 @@ const UpdatePet = () => {
         initialValue={loadedPets.breed}
         initialValid={true}
       />
-      <Input
+      {/* <Input
         id="owner"
         element="input"
         label="owner"
@@ -320,9 +324,9 @@ const UpdatePet = () => {
         onInput={inputHandler}
         initialValue={loadedPets.owner}
         initialValid={true}
-      />
+      /> */}
       <Button type="submit" disabled={!formState.isValid}>
-        UPDATE USER
+        UPDATE PET
       </Button>
     </form>)}
     </React.Fragment>

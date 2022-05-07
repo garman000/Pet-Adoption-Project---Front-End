@@ -130,7 +130,7 @@ const AnimalItem = (props) => {
             {isAdmin && (
               <React.Fragment>
                 <Button onClick={showDeleteWarningHandler}>Remove</Button>
-                <Button>Edit</Button>
+                <Button danger to={`/pet/${props.id}`}>Edit</Button>
               </React.Fragment>
             )}
           </div>
