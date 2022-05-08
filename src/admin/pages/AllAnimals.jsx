@@ -19,6 +19,7 @@ const AllAnimals = ({ userInfo }) => {
   const [allPets, setAllPets] = useState(savedPets);
   // const [animals, setAnimals] = useState(savedPets)
   const [dogsOnly, setDogsOnly] = useState(false);
+  
 
   // const allAnimalTypes = [...savedPets.map(pet => pet.type)];
 
@@ -57,17 +58,17 @@ const AllAnimals = ({ userInfo }) => {
   //   togglePets();
   // }, [isClicked, petType])
 
-  const dogToggle = (type) => {
-    setSavedPets((savedPetsToDisplay) =>
-      savedPets.filter((animal) => animal.type.includes("Dog"))
-    );
-  };
+  // const dogToggle = (type) => {
+  //   setSavedPets((savedPetsToDisplay) =>
+  //     savedPets.filter((animal) => animal.type.includes("Dog"))
+  //   );
+  // };
 
-  const catToggle = (type) => {
-    setSavedPets((savedPetsToDisplay) =>
-      savedPets.filter((animal) => animal.type.includes("Cat"))
-    );
-  };
+  // const catToggle = (type) => {
+  //   setSavedPets((savedPetsToDisplay) =>
+  //     savedPets.filter((animal) => animal.type.includes("Cat"))
+  //   );
+  // };
 
   const filterPetsByTypeDog = async () => {
     try {

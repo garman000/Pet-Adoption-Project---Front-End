@@ -11,6 +11,8 @@ import AuthContext from "../../shared/context/auth-context";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Avatar from "../../shared/components/UIElements/Avatar";
+// import ShowMore from 'react-show-more-button';
+import ShowMore from 'react-show-more-button/dist/module';
 import './UserItem.css';
 
 const AnimalItem = (props) => {
@@ -25,6 +27,10 @@ const AnimalItem = (props) => {
   const cancelDeleteHandler = () => setShowConfirmModal(false);
   const [isSaved, setIsSaved] = useState(false);
   const [showMore, setShowMore] = useState(false);
+  const [isSavedToggle, setSavedToggle] = useState(true)
+
+
+
 
   const confirmDeleteHandler = async () => {
     setShowConfirmModal(false);
@@ -61,6 +67,8 @@ const AnimalItem = (props) => {
     // history.push("/pet/user/:userId");
   };
 
+
+
   async function fostered() {
     try {
       const repsonse = await axios.post(
@@ -71,8 +79,17 @@ const AnimalItem = (props) => {
       console.log(userInfo);
     } catch (err) {}
   }
+
+
+
+  // const switchSaveToggle = () => {
+  //   setSavedToggle(!isSsavedToggle)
+  // } 
+
   return (
     <React.Fragment>
+
+      
       <ErrorModal error={error} onClear={clearError} />
       <Modal
         show={showConfirmModal}
@@ -95,39 +112,40 @@ const AnimalItem = (props) => {
       <li className="user-item">
         <Card>
           {isLoading && <LoadingSpinner asOverlay />}
-
-          <div className="user-item__content">
-            <div className="user-item__image">
-
-            <img className="imageControl" src={props.image} />
-              {/* <Avatar className="petImage" src={`http://localhost:8080/${props.image}`} /> */}
-            </div>
-            <div className="user-item__info">
-              <h1 className="center">{props.name}</h1>
-              <h2 className="center">{props.type}</h2>
-              <p className="center">
+          <h2 className="center">{props.name}</h2>
+          <p className="center">
                 <strong>Status: </strong> {props.status}
-              </p>
+                 </p>
+          <ShowMore backgroundColor="white" styleButton={{borderRadius: "4px",background: "white", padding: "0.8rem", border: "1px solid #FF0055", color: "#FF0055"}}>
+          <div className="user-item__content">
+         
+            <div className="place-item__image">
+               <img className="imageControl" src={props.image} />
+            </div>
+            <div className="place-item__info">
+              <h2 className="center">{props.type}</h2>
+         
             
+              </div>
+              </div>
              
-              {/* <p>
+              <p>
                 <strong>Breed: </strong>
                 {props.breed}
-              </p> */}
-              {/* <p>
+              </p> 
+              <p>
                 <strong>Colour: </strong>
                 {props.color}
-              </p> */}
-              {/* <p>
+              </p> 
+              <p>
                 <strong>Bio: </strong>
                 {props.bio}
-              </p> */}
-            </div>
-          </div>
+              </p>
+              
+            </ShowMore>
           <div className="place-item__actions">
-            <Button inverse onClick={() => showMore(id)}>
-              Show More
-            </Button>
+            <div className="buttonCtl">
+            
             <Button inverse onClick={savePetHandler}>
               Save
             </Button>
@@ -135,6 +153,7 @@ const AnimalItem = (props) => {
             <Button inverse onClick={() => fostered(id)}>
               Foster
             </Button>
+            </div>
             {isAdmin && (
               <React.Fragment>
                 <Button onClick={showDeleteWarningHandler}>Remove</Button>

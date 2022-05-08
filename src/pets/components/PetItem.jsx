@@ -46,18 +46,22 @@ const PetItem = (props) => {
       <li className="place-item">
         <Card className="place-item__content">
           <div className="place-item__image">
-            {/* <img className="petImage" src={props.image} alt={props.name} /> */}
-            <div className="user-item__image"></div>
-            <Avatar image={`http://localhost:8080/${props.image}`} />
+            <img src={props.image} />
           </div>
-          
+
           <div className="place-item__info">
-            <h1>
+            <h1> {props.name}</h1>
+          
+
+            <h3>
+              <strong>Breed: </strong>
+              {props.breed}
+            </h3>
+            <h4>
               {" "}
-              {props.name} {props.breed}{" "}
-            </h1>
-            <h3>Age:{props.age}</h3>
-            <p>{props.bio} </p>
+              <strong>Bio: </strong>
+              {props.bio}{" "}
+            </h4>
           </div>
 
           <div className="place-item__actions">

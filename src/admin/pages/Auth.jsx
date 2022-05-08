@@ -86,12 +86,16 @@ const Auth = (props) => {
           JSON.stringify({
             email: formState.inputs.email.value,
             password: formState.inputs.password.value,
-          }),
+          }), 
           { "Content-Type": "application/json" }
-        );
+        )
+
         console.log("logintest", responseData.user.firstname);
-        localforage.setItem("userInfo", responseData.user)
+        localforage.setItem("userInfo", responseData.user);
+        
+        localforage.setItem("token", responseData.token)
         auth.login(responseData.user.id, responseData.token);
+        
         navigate("/home");
         console.log('jwttest', responseData)
       } catch (err) {}

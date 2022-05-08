@@ -81,9 +81,9 @@ const WelcomePage = (props) => {
           <h1 className="display-4">DO YOU LOVE ANIMALS?</h1>
           <h4 className="py-2">Want to Foster or Adopt?</h4>
           <div className="buttonControl">
-            {/* <Button variant="outline-dark" to="/search" as={NavLink}>
+            <Button variant="outline-dark" to="/allanimals" as={NavLink}>
               See Our Animals
-            </Button> */}
+            </Button>
             {/* <Button
               className="btn btn-outline-dark btn-sm"
               //   modalShow={showSignUp}

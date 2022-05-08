@@ -33,6 +33,10 @@ function App({userInfo}) {
     setIsAdmin(true)
   }, []);
 
+  // useEffetct(() => {
+  //   axios.get(`http://localhost:8080/token/${localforage.getItem('token')}`).then(res => console.log('res'))
+  // }, [])
+
   const logout = useCallback(() => {
     // setIsLoggedIn(false);
     setToken(null)
