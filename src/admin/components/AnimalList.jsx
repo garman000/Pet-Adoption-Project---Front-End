@@ -8,7 +8,7 @@ const AnimalList = (props) => {
     return (
       <div className="center">
         <Card>
-          <h2>No users found.</h2>
+          <h2>No animals found.</h2>
         </Card>
       </div>
     );
@@ -29,6 +29,7 @@ const AnimalList = (props) => {
               breed={pets.breed}
               color={pets.color}
               onDelete={props.onDeletePet}
+              image={pets.image}
   
              
             />

@@ -5,12 +5,13 @@ import Modal from "../../shared/components/UIElements/Modal";
 import Card from "../../shared/components/UIElements/Card";
 import "./PetItem.css";
 import AuthContext from "../../shared/context/auth-context";
+import Avatar from "../../shared/components/UIElements/Avatar";
 
 const PetItem = (props) => {
-  const auth = useContext(AuthContext)
+  const auth = useContext(AuthContext);
   const [showModal, setShowModal] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
-  
+
   const openModalHandler = () => setShowModal(true);
   const closeModalHandler = () => setShowModal(false);
   const showDeleteWarningHandler = () => setShowConfirmModal(true);
@@ -22,7 +23,7 @@ const PetItem = (props) => {
   };
   return (
     <React.Fragment>
-       <Modal
+      <Modal
         show={showConfirmModal}
         onCancel={cancelDeleteHandler}
         header="Are you sure?"
@@ -45,9 +46,11 @@ const PetItem = (props) => {
       <li className="place-item">
         <Card className="place-item__content">
           <div className="place-item__image">
-            <img className="petImage" src={props.image} alt={props.name} />
+            {/* <img className="petImage" src={props.image} alt={props.name} /> */}
+            <div className="user-item__image"></div>
+            <Avatar image={`http://localhost:8080/${props.image}`} />
           </div>
-
+          
           <div className="place-item__info">
             <h1>
               {" "}
@@ -58,11 +61,15 @@ const PetItem = (props) => {
           </div>
 
           <div className="place-item__actions">
-           <Button inverse>BIO</Button>
-           {auth.isLoggedIn && <Button to={`/pet/${props.id}`}>EDIT PET</Button>}
-            {auth.isLoggedIn && <Button danger onClick={showDeleteWarningHandler}> 
-              REMOVE PET
-            </Button>}
+            <Button inverse>BIO</Button>
+            {auth.isLoggedIn && (
+              <Button to={`/pet/${props.id}`}>EDIT PET</Button>
+            )}
+            {auth.isLoggedIn && (
+              <Button danger onClick={showDeleteWarningHandler}>
+                REMOVE PET
+              </Button>
+            )}
           </div>
         </Card>
       </li>

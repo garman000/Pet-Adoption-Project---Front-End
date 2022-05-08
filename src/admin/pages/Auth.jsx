@@ -135,7 +135,6 @@ const Auth = (props) => {
         <h2>Login Required</h2>
         <hr />
         <form onSubmit={authSubmitHandler}>
-          {/* {!isLoginMode && <ImageUpload center id="image" onInput={inputHandler} />} */}
           {!isLoginMode && (
             <React.Fragment>
               <Input

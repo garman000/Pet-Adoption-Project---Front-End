@@ -10,6 +10,8 @@ import Auth from "../pages/Auth";
 import AuthContext from "../../shared/context/auth-context";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import Avatar from "../../shared/components/UIElements/Avatar";
+import './UserItem.css';
 
 const AnimalItem = (props) => {
   const auth = useContext(AuthContext);
@@ -22,6 +24,7 @@ const AnimalItem = (props) => {
   const showDeleteWarningHandler = () => setShowConfirmModal(true);
   const cancelDeleteHandler = () => setShowConfirmModal(false);
   const [isSaved, setIsSaved] = useState(false);
+  const [showMore, setShowMore] = useState(false);
 
   const confirmDeleteHandler = async () => {
     setShowConfirmModal(false);
@@ -30,9 +33,10 @@ const AnimalItem = (props) => {
       props.onDelete(id);
     } catch (err) {}
   };
-  function showMore(pid) {
-    navigate(`/showpets/${pid}`);
-  }
+  // function showMore(pid) {
+  //   navigate(`/showpets/${pid}`);
+  // }
+
   const savePetHandler = async (e) => {
     e.preventDefault();
 
@@ -47,16 +51,16 @@ const AnimalItem = (props) => {
           "Content-Type": "application/json",
         }
       );
-      props.onSave(responseData.pet);
+      props.onSave("saving test", responseData);
       console.log(props.id);
       console.log(responseData.pet);
-      console.log(auth.token);
       console.log(userId);
       setIsSaved(true);
     } catch (err) {}
-    alert("Pet saved!");
+    // alert("Pet saved!");
     // history.push("/pet/user/:userId");
   };
+
   async function fostered() {
     try {
       const repsonse = await axios.post(
@@ -94,11 +98,18 @@ const AnimalItem = (props) => {
 
           <div className="user-item__content">
             <div className="user-item__image">
-              <img className="petImage" src={props.picture} />
+
+            <img className="imageControl" src={props.image} />
+              {/* <Avatar className="petImage" src={`http://localhost:8080/${props.image}`} /> */}
             </div>
             <div className="user-item__info">
-              <h1>{props.name}</h1>
-              <h2>{props.type}</h2>
+              <h1 className="center">{props.name}</h1>
+              <h2 className="center">{props.type}</h2>
+              <p className="center">
+                <strong>Status: </strong> {props.status}
+              </p>
+            
+             
               {/* <p>
                 <strong>Breed: </strong>
                 {props.breed}
@@ -107,9 +118,6 @@ const AnimalItem = (props) => {
                 <strong>Colour: </strong>
                 {props.color}
               </p> */}
-              <p>
-                <strong>Status: </strong> {props.status}
-              </p>
               {/* <p>
                 <strong>Bio: </strong>
                 {props.bio}
@@ -118,7 +126,7 @@ const AnimalItem = (props) => {
           </div>
           <div className="place-item__actions">
             <Button inverse onClick={() => showMore(id)}>
-              See More
+              Show More
             </Button>
             <Button inverse onClick={savePetHandler}>
               Save
@@ -130,7 +138,9 @@ const AnimalItem = (props) => {
             {isAdmin && (
               <React.Fragment>
                 <Button onClick={showDeleteWarningHandler}>Remove</Button>
-                <Button danger to={`/pet/${props.id}`}>Edit</Button>
+                <Button danger to={`/pet/${props.id}`}>
+                  Edit
+                </Button>
               </React.Fragment>
             )}
           </div>

@@ -1,4 +1,10 @@
-import React, { useCallback, useReducer, useContext, useState } from "react";
+import React, {
+  useCallback,
+  useReducer,
+  useContext,
+  useState,
+  useRef,
+} from "react";
 
 import Input from "../../shared/components/FormElements/Input";
 import {
@@ -14,12 +20,14 @@ import ErrorModal from "../../shared/components/UIElements/ErrorModal";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 import { useNavigate } from "react-router-dom";
 import ImageUpload from "../../shared/components/FormElements/ImageUpload";
+import FormData from "form-data";
 
 const NewPets = () => {
   const auth = useContext(AuthContext);
   const [addPicture, setAddPicture] = useState();
   const navigate = useNavigate();
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
+
   const [formState, inputHandler] = useForm(
     {
       image: {
@@ -84,29 +92,51 @@ const NewPets = () => {
     console.log(formState.inputs);
 
     try {
+      const formData = new FormData();
+      formData.append("type", formState.inputs.type.value);
+      formData.append("name", formState.inputs.name.value);
+      formData.append("breed", formState.inputs.breed.value);
+      formData.append("weight", formState.inputs.weight.value);
+      formData.append("height", formState.inputs.height.value);
+      formData.append("color", formState.inputs.color.value);
+      formData.append(
+        "dietaryrequirements",
+        formState.inputs.dietaryrequirements.value
+      );
+      formData.append("hypoallergenic", formState.inputs.hypoallergenic.value);
+      formData.append("bio", formState.inputs.bio.value);
+      formData.append("picture", formState.inputs.picture.value);
+      formData.append("status", formState.inputs.status.value);
+      formData.append("savedby", auth.userId);
+      formData.append(
+        "image",
+        formState.inputs.image.value,
+        formState.inputs.image.value.name
+      );
       await sendRequest(
         "http://localhost:8080/pet",
         "POST",
-        JSON.stringify({
-          type: formState.inputs.type.value,
-          name: formState.inputs.name.value,
-          breed: formState.inputs.breed.value,
-          weight: formState.inputs.weight.value,
-          height: formState.inputs.height.value,
-          color: formState.inputs.color.value,
-          dietaryrequirements: formState.inputs.dietaryrequirements.value,
-          hypoallergenic: formState.inputs.hypoallergenic.value,
-          bio: formState.inputs.bio.value,
-          picture: formState.inputs.picture.value,
-          status: formState.inputs.status.value,
-          savedby: auth.userId,
-          image: formState.inputs.image.value,
-        }),
-        {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + auth.token,
-        }
-      );
+        formData);
+        // JSON.stringify({
+        //   type: formState.inputs.type.value,
+        //   name: formState.inputs.name.value,
+        //   breed: formState.inputs.breed.value,
+        //   weight: formState.inputs.weight.value,
+        //   height: formState.inputs.height.value,
+        //   color: formState.inputs.color.value,
+        //   dietaryrequirements: formState.inputs.dietaryrequirements.value,
+        //   hypoallergenic: formState.inputs.hypoallergenic.value,
+        //   bio: formState.inputs.bio.value,
+        //   picture: formState.inputs.picture.value,
+        //   status: formState.inputs.status.value,
+        //   savedby: auth.userId,
+        //   image: formState.inputs.image.value,
+        // }),
+        // {
+        //   "Content-Type": "application/json",
+        //   Authorization: "Bearer " + auth.token,
+        // }
+      
       navigate("/allanimals");
     } catch (err) {}
   };
@@ -126,7 +156,10 @@ const NewPets = () => {
             id="image"
             onInput={inputHandler}
             element="input"
+            type="text"
+            validators={[VALIDATOR_REQUIRE()]}
           />
+          
           <Input
             id="type"
             element="input"

@@ -21,25 +21,50 @@ const AllAnimals = ({ userInfo }) => {
   const [dogsOnly, setDogsOnly] = useState(false);
 
   // const allAnimalTypes = [...savedPets.map(pet => pet.type)];
-  
+
   // const animalStatus = () => {
   //   setAllPets((savedPetsToDisplay) => savedPets.filter((animal) => animal.status.included("Adopted"))
   // )}
-  
 
+  const [petType, setPetType] = useState();
+  const [isClicked, setIsClicked] = useState(false);
+  const [selected, setSelected] = useState();
 
-  function receiveAllPets() {
-  
-  }
+  // const testSteeven = (e) => {
+  //   setPetType(e.target.value);
+  //   setIsClicked(!isClicked);
+  // };
+
+  // useEffect(() => {
+
+  //   const togglePets = () => {
+  //     if (isClicked && petType === "cats") {
+  //       setAllPets((savedPetsToDisplay) =>
+  //       savedPets.filter((animal) => animal.type.includes("Cat"))
+  //       //do your query to filter by cats
+  //       // console.log("Cats - Is Clicked");
+  //        ) } else if (isClicked && petType === "dogs") {
+  //       //do your query to filter by dogs
+  //       setAllPets((savedPetsToDisplay) =>
+  //   savedPets.filter((animal) => animal.type.includes("Dog"))
+  //       // console.log("Dogs - Is Clicked");
+  //       )} else {
+  //       // reset / update your pet type to whatever works for your query
+  //       //query to show both cats & dogs
+  //       console.log("Reset - Not Clicked");
+  //     }
+  //   };
+  //   togglePets();
+  // }, [isClicked, petType])
 
   const dogToggle = (type) => {
-    setAllPets((savedPetsToDisplay) =>
-    savedPets.filter((animal) => animal.type.includes("Dog"))
+    setSavedPets((savedPetsToDisplay) =>
+      savedPets.filter((animal) => animal.type.includes("Dog"))
     );
   };
 
   const catToggle = (type) => {
-    setAllPets((savedPetsToDisplay) =>
+    setSavedPets((savedPetsToDisplay) =>
       savedPets.filter((animal) => animal.type.includes("Cat"))
     );
   };
@@ -48,11 +73,7 @@ const AllAnimals = ({ userInfo }) => {
     try {
       const responseData = await sendRequest(`http://localhost:8080/pet`);
 
-      setSavedPets(
-        responseData.pets.filter(
-          (pet) => pet.type === "dog" || pet.type === "Dog"
-        )
-      );
+      setSavedPets(responseData.pets.filter((pet) => pet.type === "Dog"));
     } catch (err) {}
   };
 
@@ -60,11 +81,7 @@ const AllAnimals = ({ userInfo }) => {
     try {
       const responseData = await sendRequest(`http://localhost:8080/pet`);
 
-      setSavedPets(
-        responseData.pets.filter(
-          (pet) => pet.type === "cat" || pet.type === "Cat"
-        )
-      );
+      setSavedPets(responseData.pets.filter((pet) => pet.type === "Cat"));
     } catch (err) {}
   };
 
@@ -92,6 +109,17 @@ const AllAnimals = ({ userInfo }) => {
   };
   console.log("savedPets", savedPets);
 
+  const filterPetsByStatus = async () => {
+    try {
+      const responseData = await sendRequest(`http://localhost:8080/pet`);
+
+      setSavedPets(
+        responseData.pets.filter((pet) => pet.status === "Available")
+      );
+      setSelected(selected);
+    } catch (err) {}
+  };
+
   return (
     <React.Fragment>
       <ErrorModal error={error} onClear={clearError} />
@@ -104,13 +132,7 @@ const AllAnimals = ({ userInfo }) => {
       <div className="center">
         {isBasicMode && (
           <>
-            <Button
-              /*onClick={() => setDogsOnly(!dogsOnly)}*/ onClick={
-                filterPetsByTypeDog
-              }
-            >
-              DOGS
-            </Button>
+            <Button onClick={filterPetsByTypeDog}>DOGS</Button>
             <Button onClick={filterPetsByTypeCat}>CATS</Button>
           </>
         )}
@@ -119,20 +141,24 @@ const AllAnimals = ({ userInfo }) => {
           {!isBasicMode ? "Basic Search" : "ADVANCED SEARCH"}
         </Button>
         {!isBasicMode && (
-          <Card className="searchControl">
+          <div className="searchControl">
             <Form>
               <Form.Group className="mb-3">
                 <Form.Label>Name</Form.Label>
                 <Form.Control type="text" placeholder="Animal Status" />
               </Form.Group>
             </Form>
-            <Form.Select aria-label="Default select example">
+            <Form.Select
+              aria-label="Default select example"
+              value={selected}
+              onChange={(e) => setSelected(e.target.value)}
+            >
               <option>Open this select menu</option>
-              <option value="1">Available</option>
-              <option value="2">Fostered</option>
-              <option value="3">Adopted</option>
+              <option value="Available">Available</option>
+              <option value="Fostered">Fostered</option>
+              <option value="Adopted">Adopted</option>
             </Form.Select>
-            
+
             <Form>
               <Form.Group className="mb-3">
                 <Form.Label>Height</Form.Label>
@@ -146,23 +172,14 @@ const AllAnimals = ({ userInfo }) => {
                 <Form.Control type="text" placeholder="Animal Weight" />
               </Form.Group>
             </Form>
-            <Button inverse >Search</Button>
-          </Card>
+            <Button inverse onClick={filterPetsByStatus}>
+              Search
+            </Button>
+            <Button inverse onClick={switchModeHandler}>
+              {!isBasicMode ? "Go Back to Basic Search" : "ADVANCED SEARCH"}
+            </Button>
+          </div>
         )}
-
-        <Form.Group
-          className="mb-3 mt-3 my-5 border-0 outline-none  bg-white shadow-xl rounded-lg w-50 m-auto"
-          controlId="formBasicText"
-        >
-          <Form.Control
-            className=""
-            type="text"
-            placeholder="Enter type of a pet.."
-            name="type"
-            // value={petSearchHandler}
-            // onChange={petSearchHandler}
-          />
-        </Form.Group>
       </div>
       {/* {savedPets.map((animal) => {
         <AnimalList animal={animal}/>
