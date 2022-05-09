@@ -4,7 +4,7 @@ import AnimalList from "../components/AnimalList";
 import ErrorModal from "../../shared/components/UIElements/ErrorModal";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 import Input from "../../shared/components/FormElements/Input";
-import { Form, FormControl, InputGroup } from "react-bootstrap";
+import { Container, Form, FormControl, InputGroup } from "react-bootstrap";
 import Button from "../../shared/components/FormElements/Button";
 import Card from "../../shared/components/UIElements/Card";
 
@@ -70,10 +70,14 @@ const AllAnimals = ({ userInfo }) => {
   //   );
   // };
 
+  // function showAllPetsToggle() {
+  //   setSavedPets(savedPets)
+  // }
+
   const filterPetsByTypeDog = async () => {
     try {
       const responseData = await sendRequest(`http://localhost:8080/pet`);
-
+      
       setSavedPets(responseData.pets.filter((pet) => pet.type === "Dog"));
     } catch (err) {}
   };
@@ -121,8 +125,12 @@ const AllAnimals = ({ userInfo }) => {
     } catch (err) {}
   };
 
+
+  
+
   return (
     <React.Fragment>
+      <Container>
       <ErrorModal error={error} onClear={clearError} />
       {isLoading && (
         <div className="center">
@@ -135,6 +143,7 @@ const AllAnimals = ({ userInfo }) => {
           <>
             <Button onClick={filterPetsByTypeDog}>DOGS</Button>
             <Button onClick={filterPetsByTypeCat}>CATS</Button>
+            <Button onClick={''}>SHOW ALL</Button>
           </>
         )}
 
@@ -192,6 +201,7 @@ const AllAnimals = ({ userInfo }) => {
           onDeletePet={petDeleteHandler}
         />
       )}
+      </Container>
     </React.Fragment>
   );
 };

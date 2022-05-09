@@ -144,6 +144,7 @@ const AnimalItem = (props) => {
               
             </ShowMore>
           <div className="place-item__actions">
+         {auth.isLoggedIn && (   
             <div className="buttonCtl">
             
             <Button inverse onClick={savePetHandler}>
@@ -154,6 +155,7 @@ const AnimalItem = (props) => {
               Foster
             </Button>
             </div>
+            )}
             {isAdmin && (
               <React.Fragment>
                 <Button onClick={showDeleteWarningHandler}>Remove</Button>
