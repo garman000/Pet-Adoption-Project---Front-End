@@ -5,6 +5,7 @@ import { NavLink } from "react-router-dom";
 import Button from "../../shared/components/FormElements/Button";
 import AuthContext from "../../shared/context/auth-context";
 import localforage from "localforage";
+import { useHttpClient } from "../../shared/hooks/http-hook";
 // import AuthContext from "../../context/auth-context";
 
 function Homepage(props) {
@@ -12,21 +13,29 @@ function Homepage(props) {
   const { isLoggedIn } = useContext(AuthContext);
   const [userInfo, setUserInfo] = useState("");
   const auth = useContext(AuthContext);
+  const { isLoading, error, sendRequest, clearError } = useHttpClient();
+  const userId = auth.userId;
+  const [showUsernName, setShowUsername] = useState();
 
   useEffect(() => {
     const getUserInfo = async () => {
       const user = await localforage.getItem("userInfo");
-      if (user) {
-        setUserInfo(user);
-        setIsAdmin(user.role === "admin");
-        console.log("AdminTest", user);
-      } else {
-        setUserInfo({});
-      }
+
+      try {
+        const fetchNameOfUser = await sendRequest(
+          `http://localhost:8080/users/${userId}`
+        );
+        setShowUsername(fetchNameOfUser.user.firstname);
+        if (fetchNameOfUser) {
+          setUserInfo(fetchNameOfUser);
+          setIsAdmin(fetchNameOfUser.user.role === "admin");
+          console.log("AdminTest", fetchNameOfUser.user.role);
+        }
+      } catch (err) {}
     };
 
     getUserInfo();
-  }, [isLoggedIn]);
+  }, [sendRequest, userId]);
 
   return (
     <Container>
@@ -34,13 +43,13 @@ function Homepage(props) {
         <div className="test">
           <div className="display-4">
             {" "}
-            Welcome {userInfo.firstname} {userInfo.lastname}, this is your home
+            Welcome {showUsernName}, this is your home
           </div>
-        <div className="buttons">
-          <Button to="/allanimals">Search</Button>
-          <Button to={`/${auth.userId}/mypets`}>MyPets</Button>
-          <Button to={`/myprofile/${auth.userId}`}>My Profile</Button>
-        </div>
+          <div className="buttons">
+            <Button to="/allanimals">Search</Button>
+            <Button to={`/${auth.userId}/mypets`}>MyPets</Button>
+            <Button to={`/myprofile/${auth.userId}`}>My Profile</Button>
+          </div>
         </div>
       </div>
     </Container>

@@ -91,7 +91,7 @@ const Auth = (props) => {
         )
 
         console.log("logintest", responseData.user.firstname);
-        localforage.setItem("userInfo", responseData.user);
+        // localforage.setItem("userInfo", responseData.user.firstname);
         
         localforage.setItem("token", responseData.token)
         auth.login(responseData.user.id, responseData.token);

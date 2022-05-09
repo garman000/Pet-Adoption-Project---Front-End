@@ -4,21 +4,41 @@ import AnimalList from "../components/AnimalList";
 import ErrorModal from "../../shared/components/UIElements/ErrorModal";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 import Input from "../../shared/components/FormElements/Input";
-import { Container, Form, FormControl, InputGroup } from "react-bootstrap";
+import { Container, Form, FormControl, InputGroup, ListGroup } from "react-bootstrap";
 import Button from "../../shared/components/FormElements/Button";
 import Card from "../../shared/components/UIElements/Card";
 
 import "./Auth.css";
+import PetItem from "../../pets/components/PetItem";
 
 const AllAnimals = ({ userInfo }) => {
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
   const [isBasicMode, setIsBasicMode] = useState(true);
-  const [searchPets, setSearchPets] = useState(false);
+  // const [searchPets, setSearchPets] = useState(false);
 
   const [savedPets, setSavedPets] = useState();
   const [allPets, setAllPets] = useState(savedPets);
   // const [animals, setAnimals] = useState(savedPets)
   const [dogsOnly, setDogsOnly] = useState(false);
+
+  const [loadedPets, setLoadedPets] = useState([]);
+  const [petType, setPetType] = useState("");
+  const [petStatus, setPetStatus] = useState("");
+  const [petHeight, setPetHeight] = useState("");
+  const [petName, setPetName] = useState("");
+  const [petWeight, setPetWeight] = useState("");
+
+  const searchPets = async () => {
+      try {
+        const responseData = await sendRequest(
+          `http://localhost:8080/pet/search?type=${petType}&status=${petStatus}&height=${petHeight}&name=${petName}&weight=${petWeight}`
+        );
+        setLoadedPets(responseData.pets);
+        console.log('query test', responseData.pets)
+      } catch (err) { }
+    };
+
+
   
 
   // const allAnimalTypes = [...savedPets.map(pet => pet.type)];
@@ -27,7 +47,7 @@ const AllAnimals = ({ userInfo }) => {
   //   setAllPets((savedPetsToDisplay) => savedPets.filter((animal) => animal.status.included("Adopted"))
   // )}
 
-  const [petType, setPetType] = useState();
+  // const [petType, setPetType] = useState();
   const [isClicked, setIsClicked] = useState(false);
   const [selected, setSelected] = useState();
 
@@ -152,45 +172,83 @@ const AllAnimals = ({ userInfo }) => {
         </Button>
         {!isBasicMode && (
           <div className="searchControl">
-            <Form>
-              <Form.Group className="mb-3">
-                <Form.Label>Name</Form.Label>
-                <Form.Control type="text" placeholder="Animal Status" />
-              </Form.Group>
-            </Form>
-            <Form.Select
-              aria-label="Default select example"
-              value={selected}
-              onChange={(e) => setSelected(e.target.value)}
-            >
-              <option>Open this select menu</option>
-              <option value="Available">Available</option>
-              <option value="Fostered">Fostered</option>
-              <option value="Adopted">Adopted</option>
-            </Form.Select>
+            <form>
+          <select
+            className="searchbox__input"
+            placeholder={"placeholder"}
+            type="text"
+            value={petType}
+            onChange={(e) => setPetType(e.target.value)}
+          >
+            <option value="">Filter by Type</option>
+            <option value="Dog">Dog</option>
+            <option value="Cat">Cat</option>
+          </select>
+          <select
+            className="searchbox__input"
+            placeholder={"placeholder"}
+            type="text"
+            value={petStatus}
+            onChange={(e) => setPetStatus(e.target.value)}
+          >
+            <option value="">Filter By Status</option>
+            <option value="Adopted">Adopted</option>
+            <option value="Fostered">Fostered</option>
+            <option value="Available">Available</option>
+          </select>
 
-            <Form>
-              <Form.Group className="mb-3">
-                <Form.Label>Height</Form.Label>
-                <Form.Control type="text" placeholder="Color" />
-              </Form.Group>
-            </Form>
+          <input
+            className="searchbox__input"
+            type="text"
+            placeholder="Search by Name"
+            value={petName}
+            onChange={(e) => setPetName(e.target.value)}
+          />
+          <input
+            className="searchbox__input"
+            placeholder={"Search by Height"}
+            type="text"
+            value={petHeight}
+            onChange={(e) => setPetHeight(e.target.value)}
+          />
+          <input
+            className="searchbox__input"
+            placeholder={"Search by Weight"}
+            type="text"
+            value={petWeight}
+            onChange={(e) => setPetWeight(e.target.value)}
+          />
 
-            <Form>
-              <Form.Group className="mb-3">
-                <Form.Label>Weight</Form.Label>
-                <Form.Control type="text" placeholder="Animal Weight" />
-              </Form.Group>
-            </Form>
-            <Button inverse onClick={filterPetsByStatus}>
-              Search
-            </Button>
-            <Button inverse onClick={switchModeHandler}>
-              {!isBasicMode ? "Go Back to Basic Search" : "ADVANCED SEARCH"}
-            </Button>
+          <Button type="button" onClick={searchPets}>
+            Search
+          </Button>
+        </form>
+            <ListGroup>
+              {loadedPets && loadedPets.map((pet) => (<PetItem 
+                 key={pet.id}
+                 id={pet.id}
+                 breed={pet.breed}
+                 age={pet.age}
+                 image={pet.image}
+                 bio={pet.bio}
+                 name={pet.name}
+                 savedby={pet.savedby}
+              
+              
+              />))}
+
+
+
+            </ListGroup>
+           
           </div>
+          
         )}
       </div>
+
+
+
+
       {/* {savedPets.map((animal) => {
         <AnimalList animal={animal}/>
       })} */}

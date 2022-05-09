@@ -26,11 +26,22 @@ function App({userInfo}) {
   const [pet, setPet] = useState('')
   const [petId, setPetId] = useState(false)
 
-  const login = useCallback((uid, token) => {
+  const login = useCallback((uid, token, expirationDate, isAdmin) => {
     // setIsLoggedIn(true);
     setToken(token)
     setUserId(uid);
-    setIsAdmin(true)
+    setIsAdmin(isAdmin)
+    const tokenExpirationDate =
+      expirationDate || new Date(new Date().getTime() + 1000 * 60 * 60);
+    localStorage.setItem(
+      "userData",
+      JSON.stringify({
+        userId: uid,
+        token,
+        isAdmin,
+        expiration: tokenExpirationDate.toISOString(),
+      })
+    );
   }, []);
 
   // useEffetct(() => {
