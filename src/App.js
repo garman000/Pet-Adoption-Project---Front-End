@@ -16,6 +16,7 @@ import UpdateUsers from "./admin/pages/UpdateUsers"
 import MyProfile from "./homepages/pages/MyProfile";
 import localforage from "localforage";
 import ShowPetsX from "./pets/pages/ShowPetsX";
+import Footer from "./shared/components/Navigation/Footer";
 
 function App({userInfo}) {
   // const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -64,27 +65,27 @@ function App({userInfo}) {
    let routes;
 
   // if (isLoggedIn) {
-    if (token) {
-    routes = (
-      <React.Fragment>
-        <Route path="/" element={<WelcomePage />} />
-        <Route path="/homepage" element={<Homepage userInfo={userInfo} />} />
+  //   if (token) {
+  //   routes = (
+  //     <React.Fragment>
+  //       <Route path="/" element={<WelcomePage />} />
+  //       <Route path="/homepage" element={<Homepage userInfo={userInfo} />} />
         
-        <Route path="/allanimals" element={<AllAnimals />} />
-        <Route path="/:userId/mypets" element={<UserPets />} />
-        <Route path="/pets/new" element={<NewPets />} />
+  //       <Route path="/allanimals" element={<AllAnimals />} />
+  //       <Route path="/:userId/mypets" element={<UserPets />} />
+  //       <Route path="/pets/new" element={<NewPets />} />
        
-      </React.Fragment>
-    );
-  } else {
-    routes = (
-      <React.Fragment>
-        <Route path="/" element={<WelcomePage />} />
-        <Route path="/allanimals" element={<AllAnimals />} />
-        <Route path="/authenticate" element={<Auth />} />
-      </React.Fragment>
-    );
-  }
+  //     </React.Fragment>
+  //   );
+  // } else {
+  //   routes = (
+  //     <React.Fragment>
+  //       <Route path="/" element={<WelcomePage />} />
+  //       <Route path="/allanimals" element={<AllAnimals />} />
+  //       <Route path="/authenticate" element={<Auth />} />
+  //     </React.Fragment>
+  //   );
+  // }
 
   return (
     <AuthContext.Provider
@@ -112,7 +113,8 @@ function App({userInfo}) {
 
             {/* <Route path="/pets/:petId" element={<UpdatePets />}/> */}
           </Routes>
-        </main>
+         </main>
+         <Footer />
       </div>
     </AuthContext.Provider>
   );

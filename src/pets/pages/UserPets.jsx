@@ -7,6 +7,7 @@ import { useHttpClient } from "../../shared/hooks/http-hook.jsx";
 import ErrorModal from "../../shared/components/UIElements/ErrorModal.jsx";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner.jsx";
 import "./NewPets.css";
+import AnimalList from "../../admin/components/AnimalList.jsx";
 
 const UserPets = () => {
   const [loadedPets, setLoadedPets] = useState();

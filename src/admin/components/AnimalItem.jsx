@@ -21,7 +21,7 @@ const AnimalItem = (props) => {
   const { userId, userInfo } = useContext(AuthContext);
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
   const [showConfirmModal, setShowConfirmModal] = useState(false);
-  const { id } = props;
+  const { id, status } = props;
   const navigate = useNavigate();
   const showDeleteWarningHandler = () => setShowConfirmModal(true);
   const cancelDeleteHandler = () => setShowConfirmModal(false);
@@ -63,8 +63,7 @@ const AnimalItem = (props) => {
       console.log(userId);
       setIsSaved(true);
     } catch (err) {}
-    // alert("Pet saved!");
-    // history.push("/pet/user/:userId");
+    
   };
 
 
@@ -80,6 +79,105 @@ const AnimalItem = (props) => {
     } catch (err) {}
   }
 
+  const savePet = async () => {
+    // e.preventDefault();
+    try {
+      const responseData = await sendRequest(`http://localhost:8080/users/${userId}`)
+      const userPetsArray = responseData.user.pets;
+      if (userPetsArray.includes(props.id)) {
+        alert("Pet has been saved!")
+      } else if 
+        (props.status === "Available" || "Fostered") {
+          try {
+            responseData = await sendRequest(
+              `http://localhost:8080/pet/${userId}/save`, 'POST',
+              JSON.stringify({
+              _id: props.id,
+              userId: userId,
+              }),
+              {
+                'Content-Type': "application/json"
+              }
+            )
+          } catch (err) {}
+          alert('Pet Saved')
+          navigate(`/${auth.userId}/mypets`)
+        
+    }
+    
+      console.log('userID test 3', userId)
+    } catch (err) {
+      
+    }
+  }
+  
+  const removePet = async (e) => {
+    e.preventDefault();
+    try {
+      const responseData = await sendRequest(`http://localhost:8080/users/${userId}`)
+      const userPetsArray = responseData.user.pets;
+            try {
+            responseData = await sendRequest(
+              `http://localhost:8080/pet/${userId}/save`, 'DELETE',
+              JSON.stringify({
+              _id: props.id,
+              userId: userId,
+              }),
+              {
+                'Content-Type': "application/json"
+              }
+            )
+          } catch (err) {}
+          alert('Removed saved pet')
+        
+        }
+        catch (err) {}
+  
+  }  
+  
+  const fosterPet = async (e) => {
+    e.preventDefault();
+  if( props.status === "Available") {
+    savePet();
+  // try {
+  //   const responseData = await sendRequest(`http`)
+  // }  
+  try{
+    const responseData = await sendRequest(`http://localhost:8080/pet/${props.id}`, 'PUT', 
+    JSON.stringify({
+      status: "Fostered",
+      savedby: auth.userId
+    }),
+    {
+      'Content-Type': "application/json"
+    })
+    alert('Pet has been fostered')
+  } catch(err) {}
+} else {
+  alert("Can only foster available pets")
+}
+
+}
+
+// const adoptPet = async (e) => {
+//   e.preventDefault();
+// if( props.status === "Available" || "Fostered" ) {
+//   savePet();
+// try{
+//   const responseData = await sendRequest(`http://localhost:8080/pet/${props.id}/fostered`, 'POST', 
+//   JSON.stringify({
+//     status: "Fostered"
+//   }),
+//   {
+//     'Content-Type': "application/json"
+//   })
+//   alert('Pet has been fostered')
+// } catch(err) {}
+// } else {
+// alert("Can only foster available pets")
+// }
+
+// }
 
 
   // const switchSaveToggle = () => {
@@ -147,11 +245,11 @@ const AnimalItem = (props) => {
          {auth.isLoggedIn && (   
             <div className="buttonCtl">
             
-            <Button inverse onClick={savePetHandler}>
+            <Button inverse onClick={savePet}>
               Save
             </Button>
-            <Button inverse>Adopt</Button>
-            <Button inverse onClick={() => fostered(id)}>
+           <Button inverse>Adopt</Button>
+            <Button inverse onClick={fosterPet}>
               Foster
             </Button>
             </div>

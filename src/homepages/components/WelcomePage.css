@@ -40,3 +40,21 @@
   width: 100%;
   background-color: white;
 }
+
+.welcomeCtl {
+  display: flex;
+  background-color: white;
+  gap: 3rem;
+  padding: 0 1rem 0 2rem;
+  box-shadow: 3px 7px 27px 8px rgba(148, 144, 144, 0.55);
+  -webkit-box-shadow: 3px 7px 27px 8px rgba(148, 144, 144, 0.55);
+  -moz-box-shadow: 3px 7px 27px 8px rgba(148, 144, 144, 0.55);
+}
+.individualCard {
+      /* border: 4px solid peru; */
+      background-color: white;
+      padding: 1rem;
+      box-shadow: 3px 7px 27px 8px rgb(148 144 144 / 55%);
+      -webkit-box-shadow: 3px 7px 27px 8px rgb(148 144 144 / 55%);
+      -moz-box-shadow: 3px 7px 27px 8px rgba(148, 144, 144, 0.55);
+  }

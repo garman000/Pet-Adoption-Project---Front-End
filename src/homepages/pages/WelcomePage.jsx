@@ -104,22 +104,47 @@ const WelcomePage = (props) => {
         </div>
       </div>
       <div>
-        <div className="paraControl">
-          <p>
+       
+        </div>
+        <div className="welcomeCtl">
+        <div className="individualCard">
+        <p>
+          This is who we are?
+        </p>
+        <p>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga unde
             veritatis quas amet similique doloribus cumque atque blanditiis,
             rerum laborum voluptatum totam laudantium quos nisi dignissimos
             voluptatem. Nisi, iste quidem? Lorem ipsum dolor sit amet
-            consectetur adipisicing elit. Rem nemo cupiditate, blanditiis
-            obcaecati aperiam, similique eius non saepe ipsum illum adipisci
-            modi, reprehenderit fugit perspiciatis architecto officiis tenetur
-            hic maxime sit nisi. Deserunt doloremque accusamus ut dignissimos
-            dolorum commodi dolorem quis aut debitis voluptas itaque quo iure,
-            at facere labore.
+           
           </p>
-        </div>
-      </div>
-     
+          </div>
+          <div className="individualCard" >
+          <p>
+          This is who we are?
+        </p>
+        <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga unde
+            veritatis quas amet similique doloribus cumque atque blanditiis,
+            rerum laborum voluptatum totam laudantium quos nisi dignissimos
+            voluptatem. Nisi, iste quidem? Lorem ipsum dolor sit amet
+            co
+          </p>
+          </div>
+          <div  className="individualCard">
+           <p>
+           This is who we are?
+         </p>
+         <p>
+             Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga unde
+             veritatis quas amet similique doloribus cumque atque blanditiis,
+             rerum laborum voluptatum totam laudantium quos nisi dignissimos
+             voluptatem. Nisi, iste quidem? Lorem ipsum dolor sit amet
+             consectetur adipisicing elit. Rem nemo cupiditate, blanditiis
+             ob
+             </p>
+           </div>
+           </div>
     </React.Fragment>
   );
 };

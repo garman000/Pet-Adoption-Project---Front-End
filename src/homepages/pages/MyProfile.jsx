@@ -6,9 +6,11 @@ const MyProfile = () => {
     return (
         <div>
 
-            <h1>MY Profile</h1>
-            <UpdateUsers />
+            <h1 className='center'>My Profile</h1>
+            <h3 className='center'>Your Current Pets</h3>
             <UserPets />
+            <h3 className='center'>Update User Profile</h3>
+            <UpdateUsers />
         </div>
     );
 };
