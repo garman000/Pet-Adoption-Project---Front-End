@@ -21,6 +21,7 @@ import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 import { useNavigate } from "react-router-dom";
 import ImageUpload from "../../shared/components/FormElements/ImageUpload";
 import FormData from "form-data";
+import logo from "../../shared/components/Navigation/navimage/logo.png"
 
 const NewPets = () => {
   const auth = useContext(AuthContext);
@@ -151,6 +152,7 @@ const NewPets = () => {
         <ErrorModal error={error} onClear={clearError} />
         <form className="place-form" onSubmit={petSubmitHandler}>
           {isLoading && <LoadingSpinner asOverlay />}
+          <img src={logo} width="200" />
           <ImageUpload
             center
             id="image"
