@@ -84,13 +84,13 @@ const NewPets = () => {
   );
 
   const handleImageUpload = (e) => {
-    console.log(e.target.files[0]);
+
     setAddPicture(e.target.files[0]);
   };
 
   const petSubmitHandler = async (event) => {
     event.preventDefault();
-    console.log(formState.inputs);
+ 
 
     try {
       const formData = new FormData();
@@ -118,26 +118,7 @@ const NewPets = () => {
         "http://localhost:8080/pet",
         "POST",
         formData);
-        // JSON.stringify({
-        //   type: formState.inputs.type.value,
-        //   name: formState.inputs.name.value,
-        //   breed: formState.inputs.breed.value,
-        //   weight: formState.inputs.weight.value,
-        //   height: formState.inputs.height.value,
-        //   color: formState.inputs.color.value,
-        //   dietaryrequirements: formState.inputs.dietaryrequirements.value,
-        //   hypoallergenic: formState.inputs.hypoallergenic.value,
-        //   bio: formState.inputs.bio.value,
-        //   picture: formState.inputs.picture.value,
-        //   status: formState.inputs.status.value,
-        //   savedby: auth.userId,
-        //   image: formState.inputs.image.value,
-        // }),
-        // {
-        //   "Content-Type": "application/json",
-        //   Authorization: "Bearer " + auth.token,
-        // }
-      
+        
       navigate("/allanimals");
     } catch (err) {}
   };

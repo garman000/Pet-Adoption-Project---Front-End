@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-
 import Input from "../../shared/components/FormElements/Input";
 import Button from "../../shared/components/FormElements/Button";
 import {
@@ -14,6 +13,7 @@ import Card from "../../shared/components/UIElements/Card";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 import ErrorModal from "../../shared/components/UIElements/ErrorModal";
 import AuthContext from "../../shared/context/auth-context";
+import logo from "../../shared/components/Navigation/navimage/logo.png";
 
 const UpdatePet = () => {
   const auth = useContext(AuthContext);
@@ -70,11 +70,7 @@ const UpdatePet = () => {
         value: "",
         isValid: false,
       },
-      //  owner: {
-      //   value: "",
-      //   isValid: false,
-      // },
-    },
+      },
     false
   );
 
@@ -82,7 +78,7 @@ const UpdatePet = () => {
     const fetchPet = async () => {
       try {
         const responseData = await sendRequest(`http://localhost:8080/pet/${petId}`)
-        console.log('PetTest', responseData)
+        
         
         setloadedPets(responseData.pet)
         setFormData(
@@ -135,9 +131,7 @@ const UpdatePet = () => {
                 value: responseData.pet.owner,
                 isValid: true,
               },
-              
-
-          },
+             },
           true
         );
      
@@ -162,13 +156,10 @@ const UpdatePet = () => {
       hypoallergenic: formState.inputs.hypoallergenic.value,
       dietaryrequirements: formState.inputs.dietaryrequirements.value,
       breed: formState.inputs.breed.value,
-      // owner: formState.inputs.owner.value,
-      // image: formState.inputs.image.value
-  }),
+    }),
   {
     'Content-Type': 'application/json'
   })
-  // navigate('/' + auth.petId + '/pets')
   navigate('/allanimals')
   } catch (err) {}
 }
@@ -189,11 +180,11 @@ const UpdatePet = () => {
     );
   }
 
-
   return (
     <React.Fragment>
       <ErrorModal error={error} onClear={clearError} /> 
     {!isLoading && loadedPets && (<form className="place-form" onSubmit={userUpdateSubmitHandler}>
+    <div className="center"><img src={logo} width="200" /></div>
       <Input
         id="type"
         element="input"
@@ -315,17 +306,6 @@ const UpdatePet = () => {
         initialValue={loadedPets.breed}
         initialValid={true}
       />
-      {/* <Input
-        id="owner"
-        element="input"
-        label="owner"
-        type="text"
-        validators={[VALIDATOR_REQUIRE()]}
-        errorText="Please enter your email"
-        onInput={inputHandler}
-        initialValue={loadedPets.owner}
-        initialValid={true}
-      /> */}
       <Button type="submit" disabled={!formState.isValid}>
         UPDATE PET
       </Button>

@@ -30,6 +30,8 @@ const AnimalList = (props) => {
               color={pets.color}
               onDelete={props.onDeletePet}
               image={pets.image}
+              savedby={pets.savedby}
+              owner={pets.owner}
               
   
              

@@ -1,10 +1,14 @@
 .footerCtl {
-    position: fixed;
-    left: 0;
-    bottom: 0;
+    position: inherit;
     width: 100%;
-    background-color: transparent;
+    background-color: white;
     color: black;
     text-align: center;
+    display: flex;
+    flex-direction: row;
+    max-height: 5rem;
+    margin-top: auto;
 }
-
+.test {
+    margin-bottom: -12px;
+}

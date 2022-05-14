@@ -8,12 +8,15 @@ import ErrorModal from "../../shared/components/UIElements/ErrorModal.jsx";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner.jsx";
 import "./NewPets.css";
 import AnimalList from "../../admin/components/AnimalList.jsx";
+import Card from "../../shared/components/UIElements/Card.jsx";
 
-const UserPets = () => {
+const UserPets = (props) => {
   const [loadedPets, setLoadedPets] = useState();
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
 
   const userId = useParams().userId;
+  
+
 
   useEffect(() => {
     const fetchPets = async () => {
@@ -21,18 +24,19 @@ const UserPets = () => {
         const responseData = await sendRequest(
           `http://localhost:8080/pet/user/${userId}`
         );
-        console.log("userpets", responseData);
+       
         setLoadedPets(responseData.pets);
       } catch (err) {}
     };
 
     fetchPets();
   }, [sendRequest, userId]);
+
   return (
     // <Container>
     <React.Fragment>
       <div>
-        <h1 className="d-flex justify-content-center">My Pets</h1>
+        <h1 className="center">My Pets</h1>
         <ErrorModal error={error} onClear={clearError} />
         {isLoading && (
           <div className="center">

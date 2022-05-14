@@ -1,12 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Container } from "react-bootstrap";
-import "../components/Homepage.css";
-import { NavLink } from "react-router-dom";
-import Button from "../../shared/components/FormElements/Button";
-import AuthContext from "../../shared/context/auth-context";
 import localforage from "localforage";
+import { Container } from "react-bootstrap";
+
+import AuthContext from "../../shared/context/auth-context";
+import Button from "../../shared/components/FormElements/Button";
 import { useHttpClient } from "../../shared/hooks/http-hook";
-// import AuthContext from "../../context/auth-context";
+
+import "../components/Homepage.css";
 
 function Homepage(props) {
   const { setIsAdmin } = useContext(AuthContext);
@@ -33,7 +33,6 @@ function Homepage(props) {
         }
       } catch (err) {}
     };
-
     getUserInfo();
   }, [sendRequest, userId]);
 

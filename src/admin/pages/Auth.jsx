@@ -39,7 +39,6 @@ const Auth = (props) => {
     },
     false
   );
-
   const switchModeHandler = () => {
     if (!isLoginMode) {
       setFormData(
@@ -66,7 +65,6 @@ const Auth = (props) => {
             value: "",
             isValid: false,
           },
-         
         },
         false
       );
@@ -76,9 +74,8 @@ const Auth = (props) => {
 
   const authSubmitHandler = async (event) => {
     event.preventDefault();
-   
 
-   if (isLoginMode) {
+    if (isLoginMode) {
       try {
         const responseData = await sendRequest(
           "http://localhost:8080/auth/login",
@@ -86,49 +83,49 @@ const Auth = (props) => {
           JSON.stringify({
             email: formState.inputs.email.value,
             password: formState.inputs.password.value,
-          }), 
+          }),
           { "Content-Type": "application/json" }
-        )
+        );
 
-        console.log("logintest", responseData.user.firstname);
+      
         // localforage.setItem("userInfo", responseData.user.firstname);
-        
-        localforage.setItem("token", responseData.token)
+
+        localforage.setItem("token", responseData.token);
         auth.login(responseData.user.id, responseData.token);
-        
+
         navigate("/home");
-        console.log('jwttest', responseData)
+      
       } catch (err) {}
     } else {
-      if (formState.inputs.password.value !==  formState.inputs.confirmPassword.value
-        ) {
-          alert("Passwords don't match");
-          return;
-        }
-        try {
-          const responseData = await sendRequest(
-            "http://localhost:8080/auth/signup",
-            "POST",
-            JSON.stringify({
-              firstname: formState.inputs.firstname.value,
-              lastname: formState.inputs.lastname.value,
-              email: formState.inputs.email.value,
-              phonenumber: formState.inputs.phonenumber.value,
-              password: formState.inputs.password.value,
-              // confirmPassword: formState.inputs.confirmPassword.value,
-            }),
-            {
-              "Content-Type": "application/json",
-            },
-            
-            
-            );
-            console.log('token test', responseData)
-    
+      if (
+        formState.inputs.password.value !==
+        formState.inputs.confirmPassword.value
+      ) {
+        alert("Passwords don't match");
+        return;
+      }
+      try {
+        const responseData = await sendRequest(
+          "http://localhost:8080/auth/signup",
+          "POST",
+          JSON.stringify({
+            firstname: formState.inputs.firstname.value,
+            lastname: formState.inputs.lastname.value,
+            email: formState.inputs.email.value,
+            phonenumber: formState.inputs.phonenumber.value,
+            password: formState.inputs.password.value,
+           
+          }),
+          {
+            "Content-Type": "application/json",
+          }
+        );
+        localforage.setItem("token", responseData.token);
+
         auth.login(responseData.user.id, responseData.token);
         navigate("/home");
       } catch (err) {}
-    } 
+    }
   };
 
   return (
@@ -201,7 +198,6 @@ const Auth = (props) => {
             type="button"
             onClick={authSubmitHandler}
             disabled={!formState.isValid}
-            
           >
             {isLoginMode ? "LOGIN" : "SIGNUP"}
           </Button>

@@ -4,16 +4,9 @@ import AnimalList from "../components/AnimalList";
 import ErrorModal from "../../shared/components/UIElements/ErrorModal";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 import Input from "../../shared/components/FormElements/Input";
-import {
-  Container,
-  Form,
-  FormControl,
-  InputGroup,
-  ListGroup,
-} from "react-bootstrap";
+import { Container, ListGroup } from "react-bootstrap";
 import Button from "../../shared/components/FormElements/Button";
 import Card from "../../shared/components/UIElements/Card";
-
 import "./Auth.css";
 import PetItem from "../../pets/components/PetItem";
 import AnimalItem from "../components/AnimalItem";
@@ -21,13 +14,7 @@ import AnimalItem from "../components/AnimalItem";
 const AllAnimals = ({ userInfo }) => {
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
   const [isBasicMode, setIsBasicMode] = useState(true);
-  // const [searchPets, setSearchPets] = useState(false);
-
   const [savedPets, setSavedPets] = useState();
-  const [allPets, setAllPets] = useState(savedPets);
-  // const [animals, setAnimals] = useState(savedPets)
-  const [dogsOnly, setDogsOnly] = useState(false);
-
   const [loadedPets, setLoadedPets] = useState([]);
   const [petType, setPetType] = useState("");
   const [petStatus, setPetStatus] = useState("");
@@ -35,68 +22,26 @@ const AllAnimals = ({ userInfo }) => {
   const [petName, setPetName] = useState("");
   const [petWeight, setPetWeight] = useState("");
 
+
+  useEffect(() => {
+    const fetchPets = async () => {
+      try {
+        const responseData = await sendRequest("http://localhost:8080/pet");
+        setSavedPets(responseData.pets);
+      } catch (err) {}
+    };
+
+    fetchPets();
+  }, [sendRequest]);
+
   const searchPets = async () => {
     try {
       const responseData = await sendRequest(
         `http://localhost:8080/pet/search?type=${petType}&status=${petStatus}&height=${petHeight}&name=${petName}&weight=${petWeight}`
       );
       setLoadedPets(responseData.pets);
-      console.log("query test", responseData.pets);
     } catch (err) {}
   };
-
-  // const allAnimalTypes = [...savedPets.map(pet => pet.type)];
-
-  // const animalStatus = () => {
-  //   setAllPets((savedPetsToDisplay) => savedPets.filter((animal) => animal.status.included("Adopted"))
-  // )}
-
-  // const [petType, setPetType] = useState();
-  const [isClicked, setIsClicked] = useState(false);
-  const [selected, setSelected] = useState();
-
-  // const testSteeven = (e) => {
-  //   setPetType(e.target.value);
-  //   setIsClicked(!isClicked);
-  // };
-
-  // useEffect(() => {
-
-  //   const togglePets = () => {
-  //     if (isClicked && petType === "cats") {
-  //       setAllPets((savedPetsToDisplay) =>
-  //       savedPets.filter((animal) => animal.type.includes("Cat"))
-  //       //do your query to filter by cats
-  //       // console.log("Cats - Is Clicked");
-  //        ) } else if (isClicked && petType === "dogs") {
-  //       //do your query to filter by dogs
-  //       setAllPets((savedPetsToDisplay) =>
-  //   savedPets.filter((animal) => animal.type.includes("Dog"))
-  //       // console.log("Dogs - Is Clicked");
-  //       )} else {
-  //       // reset / update your pet type to whatever works for your query
-  //       //query to show both cats & dogs
-  //       console.log("Reset - Not Clicked");
-  //     }
-  //   };
-  //   togglePets();
-  // }, [isClicked, petType])
-
-  // const dogToggle = (type) => {
-  //   setSavedPets((savedPetsToDisplay) =>
-  //     savedPets.filter((animal) => animal.type.includes("Dog"))
-  //   );
-  // };
-
-  // const catToggle = (type) => {
-  //   setSavedPets((savedPetsToDisplay) =>
-  //     savedPets.filter((animal) => animal.type.includes("Cat"))
-  //   );
-  // };
-
-  // function showAllPetsToggle() {
-  //   setSavedPets(savedPets)
-  // }
 
   const filterPetsByTypeDog = async () => {
     try {
@@ -114,19 +59,6 @@ const AllAnimals = ({ userInfo }) => {
     } catch (err) {}
   };
 
-  useEffect(() => {
-    const fetchPets = async () => {
-      try {
-        const responseData = await sendRequest("http://localhost:8080/pet");
-        setSavedPets(responseData.pets);
-
-        console.log("getallpets", responseData);
-      } catch (err) {}
-    };
-
-    fetchPets();
-  }, [sendRequest]);
-
   const petDeleteHandler = (deletedPetId) => {
     setSavedPets((prevPets) =>
       prevPets.filter((pet) => pet.id !== deletedPetId)
@@ -136,20 +68,8 @@ const AllAnimals = ({ userInfo }) => {
   const switchModeHandler = () => {
     setIsBasicMode(!isBasicMode);
   };
-  console.log("savedPets", savedPets);
 
-  const filterPetsByStatus = async () => {
-    try {
-      const responseData = await sendRequest(`http://localhost:8080/pet`);
-
-      setSavedPets(
-        responseData.pets.filter((pet) => pet.status === "Available")
-      );
-      setSelected(selected);
-    } catch (err) {}
-  };
-
-  return (
+   return (
     <React.Fragment>
       <Container>
         <ErrorModal error={error} onClear={clearError} />
@@ -164,13 +84,12 @@ const AllAnimals = ({ userInfo }) => {
             <>
               <Button onClick={filterPetsByTypeDog}>DOGS</Button>
               <Button onClick={filterPetsByTypeCat}>CATS</Button>
-              <Button onClick={""}>SHOW ALL</Button>
             </>
           )}
-
           <Button inverse onClick={switchModeHandler}>
             {!isBasicMode ? "Basic Search" : "ADVANCED SEARCH"}
           </Button>
+
           {!isBasicMode && (
             <div className="searchControl">
               <form>
@@ -223,6 +142,9 @@ const AllAnimals = ({ userInfo }) => {
                 <Button type="button" onClick={searchPets}>
                   Search
                 </Button>
+                <Button inverse onClick={switchModeHandler}>
+                  {!isBasicMode ? "Basic Search" : "ADVANCED SEARCH"}
+                </Button>
               </form>
 
               <ListGroup>
@@ -237,6 +159,7 @@ const AllAnimals = ({ userInfo }) => {
                       bio={pet.bio}
                       name={pet.name}
                       savedby={pet.savedby}
+                      owner={pet.owner}
                     />
                   ))}
               </ListGroup>
@@ -244,10 +167,7 @@ const AllAnimals = ({ userInfo }) => {
           )}
         </div>
 
-        {/* {savedPets.map((animal) => {
-        <AnimalList animal={animal}/>
-      })} */}
-        {!isLoading && savedPets && (
+         {!isLoading && savedPets && (
           <AnimalList
             animals={savedPets}
             userInfo={userInfo}

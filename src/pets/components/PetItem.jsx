@@ -14,9 +14,10 @@ const PetItem = (props) => {
 
   const auth = useContext(AuthContext);
   const userId = auth.userId;
+  const { id, status } = props;
   const [showModal, setShowModal] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const openModalHandler = () => setShowModal(true);
   const closeModalHandler = () => setShowModal(false);
   const showDeleteWarningHandler = () => setShowConfirmModal(true);
@@ -24,38 +25,65 @@ const PetItem = (props) => {
 
   const confirmDeleteHandler = () => {
     setShowConfirmModal(false);
-    console.log("deleting");
+  
   };
-
 
   const removePet = async (e) => {
     e.preventDefault();
     try {
-      const responseData = await sendRequest(`http://localhost:8080/users/${userId}`)
+      const responseData = await sendRequest(
+        `http://localhost:8080/users/${userId}`
+      );
       const userPetsArray = responseData.user.pets;
-            try {
-            responseData = await sendRequest(
-              `http://localhost:8080/pet/${userId}/save`, 'DELETE',
-              JSON.stringify({
-              _id: props.id,
-              userId: userId,
-              }),
-              {
-                'Content-Type': "application/json"
-              }
-            )
-          } catch (err) {}
-          alert('Removed saved pet')
-          navigate("/allanimals")
-        
-        }
-        catch (err) {}
-  
-  }  
-  
+      try {
+        responseData = await sendRequest(
+          `http://localhost:8080/pet/${userId}/save`,
+          "DELETE",
+          JSON.stringify({
+            _id: props.id,
+            userId: userId,
+            status: "Available",
+          }),
+          {
+            "Content-Type": "application/json",
+          }
+        );
+      } catch (err) {}
+      alert("Removed saved pet");
+      navigate("/allanimals");
+    } catch (err) {}
+  };
 
-
+  const removeAdoptedPet = async (e) => {
+    e.preventDefault();
+    if (props.status === "Adopted" || "Fostered") {
   
+      try {
+        const responseData = await sendRequest(
+          `http://localhost:8080/pet/${id}/return`,
+          "DELETE",
+          JSON.stringify({
+            userId,
+            userId,
+            _id: props.id,
+            status: "Available",
+          }),
+
+          {
+            "Content-Type": "application/json",
+          }
+        );
+    
+        // navigate(`/${auth.userId}/mypets`)
+        navigate("/allanimals");
+
+        alert("Youre animal has been returned!");
+      } catch (err) {}
+      } else {
+      alert("Can only foster available pets")
+    }
+  };
+
   return (
     <React.Fragment>
       <Modal
@@ -86,7 +114,6 @@ const PetItem = (props) => {
 
           <div className="place-item__info">
             <h1> {props.name}</h1>
-          
 
             <h3>
               <strong>Breed: </strong>
@@ -100,14 +127,17 @@ const PetItem = (props) => {
           </div>
 
           <div className="place-item__actions">
-            <Button inverse >SAVE</Button>
-            {auth.isAdmin && (
-              <Button to={`/pet/${props.id}`}>EDIT PET</Button>
-            )}
+            {/* <Button inverse >SAVE</Button> */}
+            {auth.isAdmin && <Button to={`/pet/${props.id}`}>EDIT PET</Button>}
             {auth.isLoggedIn && (
-              <Button danger onClick={removePet}>
-                RETURN PET
-              </Button>
+              <>
+                {/* <Button danger onClick={removeAdoptedPet}>
+                 Mayb return foster?
+                </Button> */}
+                <Button danger onClick={removePet}>
+                  Return Saved Pet
+                </Button>
+              </>
             )}
           </div>
         </Card>

@@ -10,7 +10,7 @@ import {
   VALIDATOR_MINLENGTH,
   VALIDATOR_REQUIRE,
 } from "../../shared/util/validators";
-// import bootstrap from "bootstrap"
+import bootstrap from "bootstrap"
 import { useForm } from "../../shared/hooks/form-hook";
 import Modal from "../../shared/components/UIElements/Modal";
 import Auth from "../../admin/pages/Auth";
@@ -78,11 +78,11 @@ const WelcomePage = (props) => {
       {/* </Card> */}
       <div className="animalImage">
         <div className="titleControl">
-          <h1 className="display-4">DO YOU LOVE ANIMALS?</h1>
-          <h4 className="py-2">Want to Foster or Adopt?</h4>
+          <h1 className="display-5 welcome">DO YOU LOVE ANIMALS?</h1>
+          <h4 className="py-2 secondTitle">Foster or Adopt TODAY</h4>
           <div className="buttonControl">
             <Button variant="outline-dark" to="/allanimals" as={NavLink}>
-              See Our Animals
+              Search Page
             </Button>
             {/* <Button
               className="btn btn-outline-dark btn-sm"
@@ -98,7 +98,7 @@ const WelcomePage = (props) => {
               onClick={openModalHandler}
               variant="outline-dark"
             >
-              SignUp/Login
+              Login / Register
             </Button>
           </div>
         </div>

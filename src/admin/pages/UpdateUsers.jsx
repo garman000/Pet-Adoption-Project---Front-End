@@ -13,6 +13,7 @@ import "../../pets/pages/NewPets.css";
 import Card from "../../shared/components/UIElements/Card";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 import ErrorModal from "../../shared/components/UIElements/ErrorModal";
+import logo from "../../shared/components/Navigation/navimage/logo.png"
 
 const UpdateUser = () => {
   const { isLoading, error, sendRequest, clearError } = useHttpClient()
@@ -47,7 +48,6 @@ const UpdateUser = () => {
     const fetchUser = async () => {
       try {
         const responseData = await sendRequest(`http://localhost:8080/users/${userId}`)
-        console.log('usertest', responseData)
         setloadedUsers(responseData.user)
         setFormData(
           {
@@ -120,6 +120,9 @@ const UpdateUser = () => {
     <React.Fragment>
       <ErrorModal error={error} onClear={clearError} /> 
     {!isLoading && loadedUsers && (<form className="place-form" onSubmit={userUpdateSubmitHandler}>
+    <div className="center"><img src={logo} width="200" /></div>
+    <h3>Update Your Profile Here...</h3>
+    
       <Input
         id="firstname"
         element="input"
@@ -164,7 +167,7 @@ const UpdateUser = () => {
         initialValue={loadedUsers.bio}
         initialValid={true}
       />
-      <Input
+      {/* <Input
         id="password"
         element="input"
         label="Password"
@@ -174,7 +177,7 @@ const UpdateUser = () => {
         onInput={inputHandler}
         initialValue={loadedUsers.password}
         initialValid={true}
-      />
+      /> */}
       <Button type="submit" disabled={!formState.isValid}>
         UPDATE USER
       </Button>

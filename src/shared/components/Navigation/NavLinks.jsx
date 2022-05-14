@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 
 import AuthContext from "../../context/auth-context";
@@ -14,7 +14,7 @@ const NavLinks = (props) => {
     navigate("/")
   }
 
-  return (
+   return (
     <ul className="nav-links">
       {!auth.isLoggedIn && (
         <li>
@@ -23,7 +23,7 @@ const NavLinks = (props) => {
           </NavLink>
         </li>
       )}
-      {auth.isLoggedIn && ( 
+      {auth.isLoggedIn && !isAdmin && ( 
           <li>
           <NavLink to={`/myprofile/${auth.userId}`} >
             My Profile
@@ -56,17 +56,12 @@ const NavLinks = (props) => {
           <NavLink to={`/${auth.userId}/mypets`}>My Pets</NavLink>
         </li>
       )}
-      {auth.isLoggedIn && (
+      {auth.isLoggedIn && !isAdmin && (
         <li>
           <NavLink to={`/users/${auth.userId}`}>Update User</NavLink>
         </li>
       )}
-        {auth.isLoggedIn && (
-        <li>
-          <NavLink to={`/pet/${auth.petId}/update`}>Update Pet</NavLink>
-        </li>
-      )}
-      {isAdmin ? (
+       {isAdmin ? (
         <li>
           <NavLink to="/pet/new">Add Pets</NavLink>
         </li>

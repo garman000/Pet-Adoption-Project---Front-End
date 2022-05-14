@@ -9,32 +9,32 @@ import WelcomePage from "./homepages/pages/WelcomePage";
 import Homepage from "./homepages/pages/Homepage";
 import AllAnimals from "./admin/pages/AllAnimals";
 import Auth from "./admin/pages/Auth";
-import UpdatePet from "./admin/components/UpdatePet"
+import UpdatePet from "./admin/components/UpdatePet";
 import { AuthContext } from "./shared/context/auth-context";
 import React from "react";
-import UpdateUsers from "./admin/pages/UpdateUsers"
+import UpdateUsers from "./admin/pages/UpdateUsers";
 import MyProfile from "./homepages/pages/MyProfile";
 import localforage from "localforage";
-import ShowPetsX from "./pets/pages/ShowPetsX";
 import Footer from "./shared/components/Navigation/Footer";
+import ProtectedRoutes from "./shared/components/Navigation/ProtectedRoutes";
 
-function App({userInfo}) {
-  // const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [token, setToken] = useState(false)
-  const [userId, setUserId] = useState(false)
-   const navigate = useNavigate();
-  const [isAdmin, setIsAdmin] = useState(false)
-  const [pet, setPet] = useState('')
-  const [petId, setPetId] = useState(false)
+function App({ userInfo }) {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [token, setToken] = useState(null);
+  const [userId, setUserId] = useState(false);
+  const navigate = useNavigate();
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [pet, setPet] = useState("");
+  const [petId, setPetId] = useState(false);
 
+  localforage.getItem("token").then((res) => setToken(res));
   const login = useCallback((uid, token, expirationDate, isAdmin) => {
-    // setIsLoggedIn(true);
-    setToken(token)
+    setToken(token);
     setUserId(uid);
-    setIsAdmin(isAdmin)
+    setIsAdmin(isAdmin);
     const tokenExpirationDate =
       expirationDate || new Date(new Date().getTime() + 1000 * 60 * 60);
-    localStorage.setItem(
+    localforage.setItem(
       "userData",
       JSON.stringify({
         userId: uid,
@@ -45,51 +45,34 @@ function App({userInfo}) {
     );
   }, []);
 
-  // useEffetct(() => {
-  //   axios.get(`http://localhost:8080/token/${localforage.getItem('token')}`).then(res => console.log('res'))
-  // }, [])
-
-  const logout = useCallback(() => {
-    // setIsLoggedIn(false);
-    setToken(null)
+   const logout = useCallback(() => {
+    setToken(null);
     setUserId(null);
-    setIsAdmin(false)
+    setIsAdmin(false);
     localforage.clear();
-    navigate("/")
+    navigate("/");
   }, []);
 
-    const getPetId = useCallback((pid) => {
-      setPetId(pid)
-    })
-    
-   let routes;
+  const getPetId = useCallback((pid) => {
+    setPetId(pid);
+  });
 
-  // if (isLoggedIn) {
-  //   if (token) {
-  //   routes = (
-  //     <React.Fragment>
-  //       <Route path="/" element={<WelcomePage />} />
-  //       <Route path="/homepage" element={<Homepage userInfo={userInfo} />} />
-        
-  //       <Route path="/allanimals" element={<AllAnimals />} />
-  //       <Route path="/:userId/mypets" element={<UserPets />} />
-  //       <Route path="/pets/new" element={<NewPets />} />
-       
-  //     </React.Fragment>
-  //   );
-  // } else {
-  //   routes = (
-  //     <React.Fragment>
-  //       <Route path="/" element={<WelcomePage />} />
-  //       <Route path="/allanimals" element={<AllAnimals />} />
-  //       <Route path="/authenticate" element={<Auth />} />
-  //     </React.Fragment>
-  //   );
-  // }
-
-  return (
+ return (
     <AuthContext.Provider
-      value={{userInfo:userInfo, /*isLoggedIn: isLoggedIn,*/ token: token, isLoggedIn: !!token,  userId: userId, login: login, logout: logout, isAdmin: isAdmin, setIsAdmin: setIsAdmin, pet: pet, setPet: setPet, getPetId: getPetId, petId: petId }}
+      value={{
+        userInfo: userInfo,
+        token: token,
+        isLoggedIn: !!token,
+        userId: userId,
+        login: login,
+        logout: logout,
+        isAdmin: isAdmin,
+        setIsAdmin: setIsAdmin,
+        pet: pet,
+        setPet: setPet,
+        getPetId: getPetId,
+        petId: petId,
+      }}
     >
       <div>
         <MainNavigation />
@@ -97,24 +80,17 @@ function App({userInfo}) {
           <Routes>
             <Route path="/" element={<WelcomePage />} />
             <Route path="/home" element={<Homepage />} />
-            <Route path="/myprofile/:userId" element={<MyProfile /> } />
-
+            <Route path="/myprofile/:userId" element={<ProtectedRoutes><MyProfile /></ProtectedRoutes>} />
             <Route path="/allanimals" element={<AllAnimals />} />
-
-            <Route path="/users" element={<Users />} />
-            <Route path="/:userId/mypets" element={<UserPets />} />
-            <Route path="/users/:userId" element={<UpdateUsers />} />
-            <Route path="/pet/new" element={<NewPets />} />
-            <Route path="/pet/:petId" element={<UpdatePet />} />
-
-
+            <Route path="/users" element={<ProtectedRoutes><Users /></ProtectedRoutes>} />
+            <Route path="/:userId/mypets" element={<ProtectedRoutes><UserPets /></ProtectedRoutes>} />
+            <Route path="/users/:userId" element={<ProtectedRoutes><UpdateUsers /></ProtectedRoutes>} />
+            <Route path="/pet/new" element={<ProtectedRoutes><NewPets /></ProtectedRoutes>} />
+            <Route path="/pet/:petId" element={<ProtectedRoutes><UpdatePet /></ProtectedRoutes>} />
             <Route path="/authenticate" element={<Auth />} />
-            <Route path="/showpets" element={<ShowPetsX />} />
-
-            {/* <Route path="/pets/:petId" element={<UpdatePets />}/> */}
           </Routes>
-         </main>
-         <Footer />
+        </main>
+        <Footer />
       </div>
     </AuthContext.Provider>
   );
