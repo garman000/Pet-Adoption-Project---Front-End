@@ -18,6 +18,7 @@ import { useNavigate } from "react-router-dom";
 import ErrorModal from "../../shared/components/UIElements/ErrorModal";
 import LoadingSpinner from "../../shared/components/UIElements/LoadingSpinner";
 import localforage from "localforage";
+import logo from "../../shared/components/Navigation/navimage/logo.png"
 
 const Auth = (props) => {
   const auth = useContext(AuthContext);
@@ -133,6 +134,7 @@ const Auth = (props) => {
       <ErrorModal error={error} onClear={clearError} />
       <Card className="authentication">
         {isLoading && <LoadingSpinner asOverlay />}
+        <img src={logo} width="200"/>
         <h2>Login Required</h2>
         <hr />
         <form onSubmit={authSubmitHandler}>

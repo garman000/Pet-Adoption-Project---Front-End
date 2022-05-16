@@ -10,11 +10,12 @@ import {
   VALIDATOR_MINLENGTH,
   VALIDATOR_REQUIRE,
 } from "../../shared/util/validators";
-import bootstrap from "bootstrap"
+import bootstrap from "bootstrap";
 import { useForm } from "../../shared/hooks/form-hook";
 import Modal from "../../shared/components/UIElements/Modal";
 import Auth from "../../admin/pages/Auth";
 import Card from "../../shared/components/UIElements/Card";
+import { Container } from "react-bootstrap";
 
 const WelcomePage = (props) => {
   const [showModal, setShowModal] = useState(false);
@@ -64,18 +65,20 @@ const WelcomePage = (props) => {
   };
 
   return (
+    <Container>
     <React.Fragment>
-    {/* <Card className="authentication__modal-container" > */}
+
       <Modal
-      className="authentication__modal"
+        className="authentication__modal"
         show={showModal}
         onCancel={closeModalHandler}
         contentClass="place-item__modal-content"
         footerClass="place-item__modal-actions"
+        // onClick={<Auth closeModalHandler={closeModalHandler}/>}
       >
         <Auth closeModalHandler={closeModalHandler} />
       </Modal>
-      {/* </Card> */}
+
       <div className="animalImage">
         <div className="titleControl">
           <h1 className="display-5 welcome">DO YOU LOVE ANIMALS?</h1>
@@ -103,49 +106,40 @@ const WelcomePage = (props) => {
           </div>
         </div>
       </div>
-      <div>
-       
-        </div>
-        <div className="welcomeCtl">
+      <div></div>
+      <div className="welcomeCtl">
         <div className="individualCard">
-        <p>
-          This is who we are?
-        </p>
-        <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga unde
-            veritatis quas amet similique doloribus cumque atque blanditiis,
-            rerum laborum voluptatum totam laudantium quos nisi dignissimos
-            voluptatem. Nisi, iste quidem? Lorem ipsum dolor sit amet
-           
-          </p>
-          </div>
-          <div className="individualCard" >
+          <h2>Our Mission:</h2>
           <p>
-          This is who we are?
-        </p>
-        <p>
+            To provide shelter, care and attention to all unwanted companion
+            animals, and seek out responsible, loving homes for them. To assist
+            the community in all aspects of animal welfare and responsible pet
+            ownership and help combat pet overpopulation and animal abuse
+            through our Spay and Neuter clinic and community education.
+          </p>
+        </div>
+        <div className="individualCard">
+          <p>This is who we are?</p>
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga unde
+            veritatis quas amet similique doloribus cumque atque blanditiis,
+            rerum laborum voluptatum totam laudantium quos nisi dignissimos
+            voluptatem. Nisi, iste quidem? Lorem ipsum dolor sit amet co
+          </p>
+        </div>
+        <div className="individualCard">
+          <p>This is who we are?</p>
+          <p>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga unde
             veritatis quas amet similique doloribus cumque atque blanditiis,
             rerum laborum voluptatum totam laudantium quos nisi dignissimos
             voluptatem. Nisi, iste quidem? Lorem ipsum dolor sit amet
-            co
+            consectetur adipisicing elit. Rem nemo cupiditate, blanditiis ob
           </p>
-          </div>
-          <div  className="individualCard">
-           <p>
-           This is who we are?
-         </p>
-         <p>
-             Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga unde
-             veritatis quas amet similique doloribus cumque atque blanditiis,
-             rerum laborum voluptatum totam laudantium quos nisi dignissimos
-             voluptatem. Nisi, iste quidem? Lorem ipsum dolor sit amet
-             consectetur adipisicing elit. Rem nemo cupiditate, blanditiis
-             ob
-             </p>
-           </div>
-           </div>
+        </div>
+      </div>
     </React.Fragment>
+    </Container>
   );
 };
 
